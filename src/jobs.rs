@@ -1,6 +1,6 @@
 pub struct Job<'a> {
     name: &'a str,
-    affinities: Affinities<'a>
+    affinities: Affinities<'a>,
 }
 
 pub struct Affinities<'a> {

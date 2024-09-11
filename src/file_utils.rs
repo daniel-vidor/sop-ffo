@@ -1,5 +1,5 @@
+use serde_json::Value;
 use std::fs;
-use serde_json::{Value};
 
 const JOBS_FILENAME: &str = "jobs.json";
 
@@ -15,6 +15,6 @@ pub fn read_json(file_name: &str) -> Result<Vec<String>, Box<dyn std::error::Err
     let data: Vec<String> = serde_json::from_str(&file_content)?;
 
     // println!("{}\n{}", file_name, serde_json::to_string_pretty(&json_data)?);
-    
+
     Ok(data)
 }

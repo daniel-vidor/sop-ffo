@@ -1,19 +1,14 @@
-use axum::{
-    extract::Query,
-    response::Html,
-    routing::get,
-    Router,
-};
+use axum::{extract::Query, response::Html, routing::get, Router};
 use maud::{html, Markup};
 use std::collections::HashMap;
 
+mod file_utils;
 mod items;
 mod jobs;
-mod file_utils;
 mod render_utils;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>>{
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let app = Router::new()
         .route("/", get(render_form))
         .route("/update", get(update_text));
@@ -27,7 +22,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>>{
 }
 
 async fn render_form() -> Html<String> {
-
     let jobs = match file_utils::get_jobs() {
         Ok(jobs) => jobs,
         Err(error) => panic!("Problem getting job data: {error:?}"),
