@@ -1,5 +1,5 @@
 use axum::{extract::Query, response::Html, routing::get, Router};
-use maud::{html, Markup};
+use maud::html;
 use std::collections::HashMap;
 
 mod file_utils;
@@ -8,20 +8,21 @@ mod jobs;
 mod render_utils;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() {
     let app = Router::new()
-        .route("/", get(render_form))
+        .route("/", get(render_page))
         .route("/update", get(update_text));
 
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
-
-    Ok(())
 }
 
-async fn render_form() -> Html<String> {
+async fn render_page() -> Html<String> {
+    let slots = vec!["Weapon", "Shield", "Head", "Chest", "Hands", "Legs", "Feet"];
+    let slots = slots.iter().map(|s| s.to_string()).collect();
+
     let jobs = match file_utils::get_jobs() {
         Ok(jobs) => jobs,
         Err(error) => panic!("Problem getting job data: {error:?}"),
@@ -36,9 +37,7 @@ async fn render_form() -> Html<String> {
             body {
                 h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
                 h2 { "Equipment" }
-                form {
-                    (render_utils::render_equipment_slot_row("Weapon".to_string(), jobs))
-                }
+                (render_utils::render_form(slots, &jobs))
                 h2 { "Result" }
                 div id="result" {
                     p { "Please select an option to see the result." }
@@ -53,6 +52,7 @@ async fn render_form() -> Html<String> {
 async fn update_text(Query(params): Query<HashMap<String, String>>) -> Html<String> {
     let default_string = &"unknown".to_string();
     let option = params.get("option").unwrap_or(default_string);
+    println!("{}", option);
 
     let response_markup = html! {
         p {
