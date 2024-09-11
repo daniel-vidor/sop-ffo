@@ -9,56 +9,30 @@ use std::collections::HashMap;
 
 mod items;
 mod jobs;
+mod file_utils;
+mod render_utils;
 
 #[tokio::main]
-async fn main() {
-    // Define routes
+async fn main() -> Result<(), Box<dyn std::error::Error>>{
     let app = Router::new()
-        .route("/", get(render_form))   // Serve the form page
-        .route("/update", get(update_text)); // Serve dynamic content based on dropdown
+        .route("/", get(render_form))
+        .route("/update", get(update_text));
 
-    // Run the web server
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
         .await
         .unwrap();
+
+    Ok(())
 }
 
-fn render_equipment_slot_row(slot: &str) -> Markup {
-    html! {
-        div {
-            label for=(slot) {(slot)}
-            (render_job_options())
-            input id="affinity-strength" name="affinity-strength" type="number" min="0" max="999" {}
-        }
-    }
-}
-
-fn render_job_options() -> Markup {
-    html! {
-        select id="options" name="option" hx-get="/update" hx-target="#result" hx-trigger="change" {
-            @for job in get_jobs() {
-                option value=(job) { (job) }
-            }
-        }
-    }
-}
-
-// TODO: Split into Basic, Advanced, and Expert?
-fn get_jobs() -> Vec<&'static str> {
-    vec![
-        "Swordfighter",
-        "Swordsman",
-        "Duelist",
-        "Pugilist",
-        "Mage",
-        "Lancer"
-    ]
-}
-
-// Function to render the initial form page with dropdown
 async fn render_form() -> Html<String> {
-    // Generate HTML using Maud
+
+    let jobs = match file_utils::get_jobs() {
+        Ok(jobs) => jobs,
+        Err(error) => panic!("Problem getting job data: {error:?}"),
+    };
+
     let markup = html! {
         html {
             head {
@@ -69,12 +43,9 @@ async fn render_form() -> Html<String> {
                 h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
                 h2 { "Equipment" }
                 form {
-                    label for="options" { "Weapon" }
-                    (render_job_options())
-                    input id="affinity-strength" name="affinity-strength" type="number" min="0" max="999" {}
+                    (render_utils::render_equipment_slot_row("Weapon".to_string(), jobs))
                 }
                 h2 { "Result" }
-                // This div will be updated by HTMX
                 div id="result" {
                     p { "Please select an option to see the result." }
                 }
@@ -82,17 +53,13 @@ async fn render_form() -> Html<String> {
         }
     };
 
-    // Return the rendered HTML
     Html(markup.into_string())
 }
 
-// Function to handle HTMX request and return updated text
 async fn update_text(Query(params): Query<HashMap<String, String>>) -> Html<String> {
-    // Extract the selected option from the query parameters
     let default_string = &"unknown".to_string();
     let option = params.get("option").unwrap_or(default_string);
 
-    // Generate the dynamic response based on the selected option
     let response_markup = html! {
         p {
             @match option.as_str() {
@@ -104,6 +71,5 @@ async fn update_text(Query(params): Query<HashMap<String, String>>) -> Html<Stri
         }
     };
 
-    // Return the updated HTML to be injected into the target div
     Html(response_markup.into_string())
 }
