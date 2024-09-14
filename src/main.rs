@@ -28,6 +28,9 @@ async fn render_page() -> Html<String> {
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
 
+    // TODO: Fix!
+    let job_names = jobs.iter().map(|job| job.name).collect();
+
     let markup = html! {
         html {
             head {
@@ -37,7 +40,7 @@ async fn render_page() -> Html<String> {
             body {
                 h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
                 h2 { "Equipment" }
-                (render_utils::render_form(slots, &jobs))
+                (render_utils::render_form(slots, job_names))
                 h2 { "Result" }
                 div id="result" {
                     p { "Please select an option to see the result." }

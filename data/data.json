@@ -1,5 +1,6 @@
-{
-    "Swordsman": {
+[
+    {
+        "name": "Swordsman",
         "tier": "basic",
         "type": "orange",
         "weapons": ["greatswords"],
@@ -30,7 +31,8 @@
             }
         }
     },
-    "Duelist": {
+    {
+        "name": "Duelist",
         "tier": "basic",
         "type": "green",
         "weapons": ["daggers"],
@@ -61,7 +63,8 @@
             }
         }
     },
-    "Pugilist": {
+    {
+        "name": "Pugilist",
         "tier": "basic",
         "type": "green",
         "weapons": ["knuckles"],
@@ -84,7 +87,8 @@
             }
         }
     },
-    "Mage": {
+    {
+        "name": "Mage",
         "tier": "basic",
         "type": "blue",
         "weapons": ["maces"],
@@ -107,7 +111,8 @@
             }
         }
     },
-    "Lancer": {
+    {
+        "name": "Lancer",
         "tier": "basic",
         "type": "red",
         "weapons": ["lances"],
@@ -130,7 +135,8 @@
             }
         }
     },
-    "Swordfighter": {
+    {
+        "name": "Swordfighter",
         "tier": "basic",
         "type": "red",
         "weapons": ["swords"],
@@ -153,7 +159,8 @@
             }
         }
     },
-    "Ronin": {
+    {
+        "name": "Ronin",
         "tier": "basic",
         "type": "red",
         "weapons": ["katanas"],
@@ -176,7 +183,8 @@
             }
         }
     },
-    "Marauder": {
+    {
+        "name": "Marauder",
         "tier": "basic",
         "type": "red",
         "weapons": ["axes"],
@@ -199,7 +207,8 @@
             }
         }
     },
-    "Pilgrim": {
+    {
+        "name": "Pilgrim",
         "tier": "basic",
         "type": "red",
         "weapons": ["staves"],
@@ -222,7 +231,8 @@
             }
         }
     },
-    "Marksman": {
+    {
+        "name": "Marksman",
         "tier": "basic",
         "type": "green",
         "weapons": ["guns"],
@@ -245,4 +255,4 @@
             }
         }
     }
-}
+]

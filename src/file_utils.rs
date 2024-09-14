@@ -1,20 +1,29 @@
-use serde_json::Value;
-use std::fs;
+use std::fs::File;
+use std::io::BufReader;
+use std::error::Error;
+use serde::Deserialize;
+use serde_json::from_reader;
 
-const JOBS_FILENAME: &str = "jobs.json";
+const DATA_FILENAME: &str = "data.json";
 
-pub fn get_jobs() -> Result<Vec<String>, Box<dyn std::error::Error>> {
-    read_json(JOBS_FILENAME)
+#[derive(Deserialize, Debug)]
+pub struct Job {
+    pub name: String,
+    pub tier: String,
+    pub r#type: String,
 }
 
-pub fn read_json(file_name: &str) -> Result<Vec<String>, Box<dyn std::error::Error>> {
-    let path = "data/".to_owned() + file_name;
-    let file_content = fs::read_to_string(path)?;
+pub fn get_jobs() -> Result<Vec<Job>, Box<dyn std::error::Error>> {
+    read_json(DATA_FILENAME)
+}
 
-    // let json_data: Value = serde_json::from_str(&file_content)?;
-    let data: Vec<String> = serde_json::from_str(&file_content)?;
+pub fn read_json(file_name: &str) -> Result<Vec<Job>, Box<dyn Error>> {
+    let path = format!("data/{}", file_name);
+    let file = File::open(path)?;
 
-    // println!("{}\n{}", file_name, serde_json::to_string_pretty(&json_data)?);
+    let reader = BufReader::new(file);
 
-    Ok(data)
+    let jobs: Vec<Job> = from_reader(reader)?;
+
+    Ok(jobs)
 }
