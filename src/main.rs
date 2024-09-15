@@ -29,7 +29,7 @@ async fn render_page() -> Html<String> {
     };
 
     // TODO: Fix!
-    let job_names = jobs.iter().map(|job| job.name).collect();
+    let job_names: Vec<String> = jobs.iter().map(|job| job.name.clone()).collect();
 
     let markup = html! {
         html {
@@ -40,7 +40,7 @@ async fn render_page() -> Html<String> {
             body {
                 h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
                 h2 { "Equipment" }
-                (render_utils::render_form(slots, job_names))
+                (render_utils::render_form(slots, &job_names))
                 h2 { "Result" }
                 div id="result" {
                     p { "Please select an option to see the result." }
