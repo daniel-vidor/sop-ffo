@@ -22,8 +22,7 @@ async fn main() {
 }
 
 async fn render_page() -> Html<String> {
-    // let slots = vec!["Weapon", "Shield", "Head", "Chest", "Hands", "Legs", "Feet"]
-    let slots = vec!["Weapon", "Head"]
+    let slots = vec!["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
         .iter().map(|s| s.to_string()).collect();
 
     let jobs = match file_utils::get_jobs() {
@@ -88,29 +87,36 @@ async fn render_page() -> Html<String> {
 // This is absolutely dreadful... I wish I could get arrays working in POST form data
 #[derive(Deserialize, Debug)]
 struct FormData {
-    Weapon_job1: String,
-    Weapon_job2: String,
-    Weapon_strength: u32,
-    Head_job1: String,
-    Head_job2: String,
-    Head_strength: u32,
+    weapon_job1: String,
+    weapon_job2: String,
+    weapon_strength: u32,
+    head_job1: String,
+    head_job2: String,
+    head_strength: u32,
 }
 
-fn map_formdata_to_map(form_data: FormData) -> HashMap<String, u32> {
+fn map_formdata_to_hashmap(form_data: FormData) -> HashMap<String, u32> {
     let mut job_affinity_sums: HashMap<String, u32> = HashMap::new();
-    job_affinity_sums.insert(form_data.Weapon_job1, form_data.Weapon_strength);
-    job_affinity_sums.insert(form_data.Weapon_job2, form_data.Weapon_strength);
-    job_affinity_sums.insert(form_data.Head_job1, form_data.Head_strength);
-    job_affinity_sums.insert(form_data.Head_job2, form_data.Head_strength);
+
+    upsert_into_hashmap(&mut job_affinity_sums, form_data.weapon_job1, form_data.weapon_strength);
+    upsert_into_hashmap(&mut job_affinity_sums, form_data.weapon_job2, form_data.weapon_strength);
+    upsert_into_hashmap(&mut job_affinity_sums, form_data.head_job1, form_data.head_strength);
+    upsert_into_hashmap(&mut job_affinity_sums, form_data.head_job2, form_data.head_strength);
 
     job_affinity_sums
+}
+
+fn upsert_into_hashmap(hashmap: &mut HashMap<String, u32>, key: String, value: u32) {
+    hashmap.entry(key)
+        .and_modify(|e| *e += value)
+        .or_insert(value);
 }
 
 #[debug_handler]
 async fn sum_affinities(Form(form): Form<FormData>) -> Html<String> {
     println!("Form: {:?}", form); 
 
-    let job_affinity_sums = map_formdata_to_map(form);
+    let job_affinity_sums = map_formdata_to_hashmap(form);
     println!("HashMap: {:?}", job_affinity_sums); 
 
     let result = html! {
