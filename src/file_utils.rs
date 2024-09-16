@@ -1,8 +1,8 @@
-use std::fs::File;
-use std::io::BufReader;
-use std::error::Error;
 use serde::Deserialize;
 use serde_json::from_reader;
+use std::error::Error;
+use std::fs::File;
+use std::io::BufReader;
 
 const DATA_FILENAME: &str = "data.json";
 

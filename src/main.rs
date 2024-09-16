@@ -1,6 +1,12 @@
 use std::collections::HashMap;
 
-use axum::{response::Html, routing::{get, post}, extract::Form, Router, debug_handler};
+use axum::{
+    debug_handler,
+    extract::Form,
+    response::Html,
+    routing::{get, post},
+    Router,
+};
 use file_utils::{get_jobs, AffinityBonus, Job};
 use maud::html;
 use serde::Deserialize;
@@ -24,7 +30,9 @@ async fn main() {
 
 async fn render_page() -> Html<String> {
     let slots = vec!["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
-        .iter().map(|s| s.to_string()).collect();
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
 
     let jobs = match file_utils::get_jobs() {
         Ok(jobs) => jobs,
@@ -102,37 +110,37 @@ fn map_formdata_to_equipment_affinities(form_data: FormData) -> Vec<EquipmentAff
     let weapon = EquipmentAffinity {
         slot: "weapon".to_string(),
         jobs: vec![form_data.weapon_job1, form_data.weapon_job2],
-        strength: form_data.weapon_strength
+        strength: form_data.weapon_strength,
     };
     let shield = EquipmentAffinity {
         slot: "shield".to_string(),
         jobs: vec![form_data.shield_job1, form_data.shield_job2],
-        strength: form_data.shield_strength
+        strength: form_data.shield_strength,
     };
     let head = EquipmentAffinity {
         slot: "head".to_string(),
         jobs: vec![form_data.head_job1, form_data.head_job2],
-        strength: form_data.head_strength
+        strength: form_data.head_strength,
     };
     let chest = EquipmentAffinity {
         slot: "chest".to_string(),
         jobs: vec![form_data.chest_job1, form_data.chest_job2],
-        strength: form_data.chest_strength
+        strength: form_data.chest_strength,
     };
     let hands = EquipmentAffinity {
         slot: "hands".to_string(),
         jobs: vec![form_data.hands_job1, form_data.hands_job2],
-        strength: form_data.hands_strength
+        strength: form_data.hands_strength,
     };
     let legs = EquipmentAffinity {
         slot: "legs".to_string(),
         jobs: vec![form_data.legs_job1, form_data.legs_job2],
-        strength: form_data.legs_strength
+        strength: form_data.legs_strength,
     };
     let feet = EquipmentAffinity {
         slot: "feet".to_string(),
         jobs: vec![form_data.feet_job1, form_data.feet_job2],
-        strength: form_data.feet_strength
+        strength: form_data.feet_strength,
     };
 
     vec![weapon, shield, head, chest, hands, legs, feet]
@@ -151,19 +159,28 @@ fn get_job_affinity_sums(equipment_affinities: Vec<EquipmentAffinity>) -> HashMa
 }
 
 fn upsert_into_hashmap(hashmap: &mut HashMap<String, u32>, key: String, value: u32) {
-    hashmap.entry(key)
+    hashmap
+        .entry(key)
         .and_modify(|e| *e += value)
         .or_insert(value);
 }
 
-fn get_active_affinity_bonuses(jobs_data: Vec<Job>, job_affinity_sums: HashMap<String, u32>) -> HashMap<String, Vec<AffinityBonus>> {
+fn get_active_affinity_bonuses(
+    jobs_data: Vec<Job>,
+    job_affinity_sums: HashMap<String, u32>,
+) -> HashMap<String, Vec<AffinityBonus>> {
     let mut active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>> = HashMap::new();
 
     for job in jobs_data {
         let job_affinity_strength = job_affinity_sums.get(&job.name).unwrap_or(&0).clone();
-        if job_affinity_strength == 0 { continue }
+        if job_affinity_strength == 0 {
+            continue;
+        }
 
-        let active_affinity_bonuses = job.affinities.get_affinity_bonuses(job_affinity_strength).clone();
+        let active_affinity_bonuses = job
+            .affinities
+            .get_affinity_bonuses(job_affinity_strength)
+            .clone();
         active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);
     }
 
@@ -182,8 +199,9 @@ async fn sum_affinities(Form(form): Form<FormData>) -> Html<String> {
         Ok(data) => data,
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
-        
-    let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(jobs_data, job_affinity_sums.clone());
+
+    let active_affinity_bonuses_for_jobs =
+        get_active_affinity_bonuses(jobs_data, job_affinity_sums.clone());
 
     let result = html! {
         @for job_name in job_names {
