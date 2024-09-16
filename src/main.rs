@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{response::Html, routing::{get, post}, extract::Form, Router, debug_handler};
+use file_utils::{get_jobs, AffinityBonus};
 use maud::html;
 use serde::Deserialize;
 
@@ -64,44 +65,88 @@ async fn render_page() -> Html<String> {
     Html(markup.into_string())
 }
 
-// #[derive(Deserialize, Debug)]
-// struct EquipmentAffinities {
-//     #[serde(rename = "job1[]")]
-//     job1: Vec<String>,
-//     #[serde(rename = "job2[]")]
-//     job2: Vec<String>,
-//     #[serde(rename = "strength[]")]
-//     strength: Vec<u32>,
-// }
-
-// #[derive(Deserialize, Debug)]
-// struct EquipmentAffinity {
-//     #[serde(rename = "job1")]
-//     job1: String,
-//     #[serde(rename = "job2")]
-//     job2: String,
-//     #[serde(rename = "strength")]
-//     strength: String,
-// }
-
 // This is absolutely dreadful... I wish I could get arrays working in POST form data
+// TODO: Consider writing a macro to generate this struct
 #[derive(Deserialize, Debug)]
 struct FormData {
     weapon_job1: String,
     weapon_job2: String,
     weapon_strength: u32,
+    shield_job1: String,
+    shield_job2: String,
+    shield_strength: u32,
     head_job1: String,
     head_job2: String,
     head_strength: u32,
+    chest_job1: String,
+    chest_job2: String,
+    chest_strength: u32,
+    hands_job1: String,
+    hands_job2: String,
+    hands_strength: u32,
+    legs_job1: String,
+    legs_job2: String,
+    legs_strength: u32,
+    feet_job1: String,
+    feet_job2: String,
+    feet_strength: u32,
 }
 
-fn map_formdata_to_hashmap(form_data: FormData) -> HashMap<String, u32> {
+struct EquipmentAffinity {
+    slot: String,
+    jobs: Vec<String>,
+    strength: u32,
+}
+
+fn map_formdata_to_equipment_affinities(form_data: FormData) -> Vec<EquipmentAffinity> {
+    let weapon = EquipmentAffinity {
+        slot: "weapon".to_string(),
+        jobs: vec![form_data.weapon_job1, form_data.weapon_job2],
+        strength: form_data.weapon_strength
+    };
+    let shield = EquipmentAffinity {
+        slot: "shield".to_string(),
+        jobs: vec![form_data.shield_job1, form_data.shield_job2],
+        strength: form_data.shield_strength
+    };
+    let head = EquipmentAffinity {
+        slot: "head".to_string(),
+        jobs: vec![form_data.head_job1, form_data.head_job2],
+        strength: form_data.head_strength
+    };
+    let chest = EquipmentAffinity {
+        slot: "chest".to_string(),
+        jobs: vec![form_data.chest_job1, form_data.chest_job2],
+        strength: form_data.chest_strength
+    };
+    let hands = EquipmentAffinity {
+        slot: "hands".to_string(),
+        jobs: vec![form_data.hands_job1, form_data.hands_job2],
+        strength: form_data.hands_strength
+    };
+    let legs = EquipmentAffinity {
+        slot: "legs".to_string(),
+        jobs: vec![form_data.legs_job1, form_data.legs_job2],
+        strength: form_data.legs_strength
+    };
+    let feet = EquipmentAffinity {
+        slot: "feet".to_string(),
+        jobs: vec![form_data.feet_job1, form_data.feet_job2],
+        strength: form_data.feet_strength
+    };
+
+
+    vec![weapon, shield, head, chest, hands, legs, feet]
+}
+
+fn get_job_affinity_sums(equipment_affinities: Vec<EquipmentAffinity>) -> HashMap<String, u32> {
     let mut job_affinity_sums: HashMap<String, u32> = HashMap::new();
 
-    upsert_into_hashmap(&mut job_affinity_sums, form_data.weapon_job1, form_data.weapon_strength);
-    upsert_into_hashmap(&mut job_affinity_sums, form_data.weapon_job2, form_data.weapon_strength);
-    upsert_into_hashmap(&mut job_affinity_sums, form_data.head_job1, form_data.head_strength);
-    upsert_into_hashmap(&mut job_affinity_sums, form_data.head_job2, form_data.head_strength);
+    for equipment in equipment_affinities {
+        for job in equipment.jobs {
+            upsert_into_hashmap(&mut job_affinity_sums, job, equipment.strength);
+        }
+    }
 
     job_affinity_sums
 }
@@ -114,15 +159,40 @@ fn upsert_into_hashmap(hashmap: &mut HashMap<String, u32>, key: String, value: u
 
 #[debug_handler]
 async fn sum_affinities(Form(form): Form<FormData>) -> Html<String> {
-    println!("Form: {:?}", form); 
+    // println!("Form: {:?}", form); 
 
-    let job_affinity_sums = map_formdata_to_hashmap(form);
-    println!("HashMap: {:?}", job_affinity_sums); 
+    let equipment_affinities = map_formdata_to_equipment_affinities(form);
+    let job_affinity_sums = get_job_affinity_sums(equipment_affinities);
+    // println!("job_affinity_sums: {:?}", job_affinity_sums);
+
+    // TODO: Cache
+    let jobs_data = match get_jobs() {
+        Ok(data) => data,
+        Err(error) => panic!("Problem getting job data: {error:?}"),
+    };
+        
+    let mut active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>> = HashMap::new();
+    for job in jobs_data {
+        let job_affinity_strength = job_affinity_sums.get(&job.name).unwrap_or(&0);
+        if *job_affinity_strength == 0 { continue }
+        // println!("{}: {}%", job.name, job_affinity_strength);
+
+        let active_affinity_bonuses = job.affinities.get_affinity_bonuses(*job_affinity_strength).clone();
+        // println!("{:?}", active_affinity_bonuses);
+
+        active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);
+    }
+
+    println!("{:?}", active_affinity_bonuses_for_jobs);
 
     let result = html! {
-        @for a in job_affinity_sums {
-            p {
-                (a.0) ": " (a.1) "%"
+        @for job_sum_pair in job_affinity_sums {
+            h3 {
+                (job_sum_pair.0) ": " (job_sum_pair.1) "%"
+            }
+            @for a in active_affinity_bonuses_for_jobs.get(&job_sum_pair.0).unwrap() {
+                h4 {(a.name)}
+                p {(a.description)}
             }
         }
     };
