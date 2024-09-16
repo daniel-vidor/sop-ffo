@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{response::Html, routing::{get, post}, extract::Form, Router, debug_handler};
-use file_utils::{get_jobs, AffinityBonus};
+use file_utils::{get_jobs, AffinityBonus, Job};
 use maud::html;
 use serde::Deserialize;
 
@@ -92,10 +92,10 @@ struct FormData {
     feet_strength: u32,
 }
 
-struct EquipmentAffinity {
-    slot: String,
-    jobs: Vec<String>,
-    strength: u32,
+pub struct EquipmentAffinity {
+    pub slot: String,
+    pub jobs: Vec<String>,
+    pub strength: u32,
 }
 
 fn map_formdata_to_equipment_affinities(form_data: FormData) -> Vec<EquipmentAffinity> {
@@ -135,7 +135,6 @@ fn map_formdata_to_equipment_affinities(form_data: FormData) -> Vec<EquipmentAff
         strength: form_data.feet_strength
     };
 
-
     vec![weapon, shield, head, chest, hands, legs, feet]
 }
 
@@ -157,13 +156,26 @@ fn upsert_into_hashmap(hashmap: &mut HashMap<String, u32>, key: String, value: u
         .or_insert(value);
 }
 
+fn get_active_affinity_bonuses(jobs_data: Vec<Job>, job_affinity_sums: HashMap<String, u32>) -> HashMap<String, Vec<AffinityBonus>> {
+    let mut active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>> = HashMap::new();
+
+    for job in jobs_data {
+        let job_affinity_strength = job_affinity_sums.get(&job.name).unwrap_or(&0).clone();
+        if job_affinity_strength == 0 { continue }
+
+        let active_affinity_bonuses = job.affinities.get_affinity_bonuses(job_affinity_strength).clone();
+        active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);
+    }
+
+    active_affinity_bonuses_for_jobs
+}
+
 #[debug_handler]
 async fn sum_affinities(Form(form): Form<FormData>) -> Html<String> {
-    // println!("Form: {:?}", form); 
-
     let equipment_affinities = map_formdata_to_equipment_affinities(form);
     let job_affinity_sums = get_job_affinity_sums(equipment_affinities);
-    // println!("job_affinity_sums: {:?}", job_affinity_sums);
+    let mut job_names: Vec<&String> = job_affinity_sums.keys().collect();
+    job_names.sort();
 
     // TODO: Cache
     let jobs_data = match get_jobs() {
@@ -171,28 +183,15 @@ async fn sum_affinities(Form(form): Form<FormData>) -> Html<String> {
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
         
-    let mut active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>> = HashMap::new();
-    for job in jobs_data {
-        let job_affinity_strength = job_affinity_sums.get(&job.name).unwrap_or(&0);
-        if *job_affinity_strength == 0 { continue }
-        // println!("{}: {}%", job.name, job_affinity_strength);
-
-        let active_affinity_bonuses = job.affinities.get_affinity_bonuses(*job_affinity_strength).clone();
-        // println!("{:?}", active_affinity_bonuses);
-
-        active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);
-    }
-
-    println!("{:?}", active_affinity_bonuses_for_jobs);
+    let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(jobs_data, job_affinity_sums.clone());
 
     let result = html! {
-        @for job_sum_pair in job_affinity_sums {
+        @for job_name in job_names {
             h3 {
-                (job_sum_pair.0) ": " (job_sum_pair.1) "%"
+                (job_name) ": " (job_affinity_sums.get(job_name).unwrap()) "%"
             }
-            @for a in active_affinity_bonuses_for_jobs.get(&job_sum_pair.0).unwrap() {
-                h4 {(a.name)}
-                p {(a.description)}
+            @for a in active_affinity_bonuses_for_jobs.get(job_name).unwrap() {
+                p { b { (a.name) } ": " (a.description)}
             }
         }
     };

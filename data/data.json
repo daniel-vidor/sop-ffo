@@ -9,14 +9,6 @@
             "ultima": "Lightbreaker Champion"
         },
         "jobAffinityBonuses": {
-            "50": {
-                "name": "Defense Bonus I",
-                "description": "Decreases damage taken by 5.9% during attacks."
-            },
-            "120": {
-                "name": "Defense Bonus II",
-                "description": "Decreases damage taken by 9.8% during attacks."
-            },
             "250": {
                 "name": "Soldier's Soul",
                 "description": "Greatsword: Increases attack speed on a successful enhanced guard."
@@ -41,14 +33,6 @@
             "ultima": "Merciless Champion"
         },
         "jobAffinityBonuses": {
-            "50": {
-                "name": "Critical Bonus I",
-                "description": "Increases critical break damage by 8.1%."
-            },
-            "120": {
-                "name": "Critical Bonus II",
-                "description": "Increases critical break damage by 13.5%."
-            },
             "250": {
                 "name": "Outlaw's Soul",
                 "description": "Daggers: Forward/Rear/Side attack links can now be chained up to two times in a row."

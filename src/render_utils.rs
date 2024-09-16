@@ -1,5 +1,13 @@
 use maud::{html, Markup};
 
+fn capitalise_first_letter(s: &str) -> String {
+    let mut char_iter = s.chars();
+    match char_iter.next() {
+        None => String::new(),
+        Some(first) => first.to_uppercase().collect::<String>() + char_iter.as_str(),
+    }
+}
+
 pub fn render_form(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
     let job_select_options = html! {
         @for job in jobs {
@@ -10,7 +18,7 @@ pub fn render_form(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
     html! {
         @for slot in slots {
             div {
-                label for=(slot) {(slot)}
+                label for=(slot) {(capitalise_first_letter(&slot))}
                 select name=(format!("{slot}_job1")) {
                     (job_select_options)
                 }
