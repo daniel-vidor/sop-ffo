@@ -66,7 +66,7 @@ pub fn get_active_affinity_bonuses(
     let mut active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>> = HashMap::new();
 
     for job in jobs_data {
-        let job_affinity_strength = job_affinity_sums.get(&job.name).unwrap_or(&0).clone();
+        let job_affinity_strength = *job_affinity_sums.get(&job.name).unwrap_or(&0);
         if job_affinity_strength == 0 {
             continue;
         }

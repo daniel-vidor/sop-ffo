@@ -28,7 +28,7 @@ async fn main() {
 }
 
 async fn render_page() -> Html<String> {
-    let slots = vec!["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
+    let slots = ["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
         .iter()
         .map(|s| s.to_string())
         .collect();

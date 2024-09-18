@@ -1,4 +1,3 @@
-use serde::Deserialize;
 use serde_json::from_reader;
 use std::error::Error;
 use std::fs::File;
