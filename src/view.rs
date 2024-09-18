@@ -4,7 +4,6 @@ use maud::{html, Markup};
 
 use crate::model::AffinityBonus;
 
-
 pub fn render_form(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
     let job_select_options = html! {
         @for job in jobs {

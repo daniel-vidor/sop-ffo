@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use serde::Deserialize;
+use std::collections::HashMap;
 
 use crate::{file_utils::get_jobs, FormData};
 
@@ -27,7 +27,7 @@ pub struct Affinities {
 impl Affinities {
     pub fn get_affinity_bonuses(&self, affinity_strength: u32) -> Vec<AffinityBonus> {
         let mut result = vec![];
-        
+
         if affinity_strength >= 250 {
             result.push(self._250.clone());
         }
@@ -37,7 +37,7 @@ impl Affinities {
         if affinity_strength >= 600 {
             result.push(self._600.clone());
         }
-        
+
         result
     }
 }

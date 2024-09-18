@@ -5,8 +5,8 @@ use axum::{
     Router,
 };
 
-use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use maud::html;
+use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use serde::Deserialize;
 use view::display_active_job_affinities;
 
@@ -106,8 +106,7 @@ async fn update(Form(form_data): Form<FormData>) -> Html<String> {
     // Model
     let job_affinity_sums = get_job_affinity_sums_from_form_data(form_data);
 
-    let active_affinity_bonuses_for_jobs =
-        get_active_affinity_bonuses(job_affinity_sums.clone());
+    let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View
     let result = display_active_job_affinities(job_affinity_sums, active_affinity_bonuses_for_jobs);
