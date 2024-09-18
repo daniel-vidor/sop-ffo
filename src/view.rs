@@ -1,10 +1,42 @@
 use std::collections::HashMap;
 
-use maud::{html, Markup};
+use maud::{html, Markup, DOCTYPE};
 
 use crate::model::AffinityBonus;
 
-pub fn render_form(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
+pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>) -> Markup {
+    html! {
+        (DOCTYPE)
+        html {
+            head {
+                title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
+                script src="https://unpkg.com/htmx.org@1.9.2" {}
+            }
+            body {
+                h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
+
+                h2 { "Job" }
+                select {
+                    @for job_name in &job_names {
+                        option value=(job_name) { (job_name) }
+                    }
+                }
+
+                h2 { "Equipment" }
+                form hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
+                    (equipment_form_template(equipment_slot_names, &job_names))
+                }
+
+                h2 { "Result" }
+                div id="result" {
+                    p { "Please select an option to see the result." }
+                }
+            }
+        }
+    }
+}
+
+pub fn equipment_form_template(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
     let job_select_options = html! {
         @for job in jobs {
             option value=(job) { (job) }
@@ -28,7 +60,7 @@ pub fn render_form(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
     }
 }
 
-pub fn display_active_job_affinities(
+pub fn active_job_affinities_template(
     job_affinity_sums: HashMap<String, u32>,
     active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>>,
 ) -> Markup {

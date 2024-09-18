@@ -5,10 +5,9 @@ use axum::{
     Router,
 };
 
-use maud::{html, DOCTYPE};
 use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use serde::Deserialize;
-use view::display_active_job_affinities;
+use view::{active_job_affinities_template, index_template};
 
 mod file_utils;
 mod items;
@@ -18,7 +17,7 @@ mod view;
 #[tokio::main]
 async fn main() {
     let app = Router::new()
-        .route("/", get(render_page))
+        .route("/", get(index))
         .route("/update", post(update));
 
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -27,41 +26,15 @@ async fn main() {
         .unwrap();
 }
 
-async fn render_page() -> Html<String> {
-    let slots = model::get_slots();
+async fn index() -> Html<String> {
+    // Model
+    let equipment_slot_names = model::get_equipment_slot_names();
     let job_names = model::get_job_names();
 
-    let markup = html! {
-        (DOCTYPE)
-        html {
-            head {
-                title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
-                script src="https://unpkg.com/htmx.org@1.9.2" {}
-            }
-            body {
-                h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
+    // View
+    let markup = index_template(equipment_slot_names, job_names);
 
-                h2 { "Job" }
-                select {
-                    @for job_name in &job_names {
-                        option value=(job_name) { (job_name) }
-                    }
-                }
-
-                h2 { "Equipment" }
-                form hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
-                    (view::render_form(slots, &job_names))
-                }
-
-                h2 { "Result" }
-                div id="result" {
-                    p { "Please select an option to see the result." }
-                }
-            }
-        }
-    };
-
-    Html(markup.into_string())
+    Html(markup.into())
 }
 
 // This is absolutely dreadful... I wish I could get arrays working in POST form data
@@ -100,7 +73,7 @@ async fn update(Form(form_data): Form<FormData>) -> Html<String> {
     let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View
-    let result = display_active_job_affinities(job_affinity_sums, active_affinity_bonuses_for_jobs);
+    let result = active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs);
 
     Html(result.into())
 }
