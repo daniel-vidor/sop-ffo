@@ -1,7 +1,10 @@
 use serde::Deserialize;
 use std::collections::HashMap;
 
-use crate::{file_utils::get_jobs, FormData};
+use crate::{
+    file_utils::{self, get_jobs},
+    FormData,
+};
 
 #[derive(Deserialize, Debug)]
 pub struct Job {
@@ -96,6 +99,23 @@ pub fn get_job_affinity_sums(equipment_affinities: Vec<EquipmentAffinity>) -> Ha
     }
 
     job_affinity_sums
+}
+
+pub fn get_job_names() -> Vec<String> {
+    let jobs = match file_utils::get_jobs() {
+        Ok(jobs) => jobs,
+        Err(error) => panic!("Problem getting job data: {error:?}"),
+    };
+
+    let job_names: Vec<String> = jobs.iter().map(|job| job.name.clone()).collect();
+    job_names
+}
+
+pub fn get_slots() -> Vec<String> {
+    ["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
+        .iter()
+        .map(|s| s.to_string())
+        .collect()
 }
 
 // Takes view model data, returns model data. Where to put this...?

@@ -5,7 +5,7 @@ use axum::{
     Router,
 };
 
-use maud::html;
+use maud::{html, DOCTYPE};
 use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use serde::Deserialize;
 use view::display_active_job_affinities;
@@ -28,19 +28,11 @@ async fn main() {
 }
 
 async fn render_page() -> Html<String> {
-    let slots = ["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
-        .iter()
-        .map(|s| s.to_string())
-        .collect();
-
-    let jobs = match file_utils::get_jobs() {
-        Ok(jobs) => jobs,
-        Err(error) => panic!("Problem getting job data: {error:?}"),
-    };
-
-    let job_names: Vec<String> = jobs.iter().map(|job| job.name.clone()).collect();
+    let slots = model::get_slots();
+    let job_names = model::get_job_names();
 
     let markup = html! {
+        (DOCTYPE)
         html {
             head {
                 title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
@@ -105,7 +97,6 @@ struct FormData {
 async fn update(Form(form_data): Form<FormData>) -> Html<String> {
     // Model
     let job_affinity_sums = get_job_affinity_sums_from_form_data(form_data);
-
     let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View
