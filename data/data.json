@@ -1,5 +1,33 @@
 [
     {
+        "name": "Swordfighter",
+        "tier": "basic",
+        "type": "red",
+        "weapons": ["swords"],
+        "jobAction": {
+            "name": "Interception",
+            "description": "[Slash][Agility] A counterattack that deals slashing damage. While active, damage from blockable attacks is nullified and will trigger a counterattack. Effect ends after a period of time, or after triggering once."
+        },
+        "classes": {
+            "evocation": "Divine Commander",
+            "ultima": "Demonslayer Champion"
+        },
+        "jobAffinityBonuses": {
+            "250": {
+                "name": "Fencer's Soul",
+                "description": "Sword: The strong attack (hold R1) will now include a quick rush forward toward the enemy."
+            },
+            "400": {
+                "name": "Sword Master",
+                "description": "Sword: Enables the use of all weapon abilities for the sword and increases damage dealt with sword combo abilities. Including Interception."
+            },
+            "600": {
+                "name": "Memories of a Void Challenger",
+                "description": "Reduces the MP cost of Sword combo abilities while a Sword is equipped. Also enhances the effects of Swordfighter's Wisdom."
+            }
+        }
+    },
+    {
         "name": "Swordsman",
         "tier": "basic",
         "type": "orange",
@@ -20,126 +48,6 @@
             "600": {
                 "name": "Memories of a Scarred Mercenary",
                 "description": "Reduces the MP cost of greatsword combo abilities while a greatsword is equipped. Also enhances the effects of Swordsman's Wisdom."
-            }
-        }
-    },
-    {
-        "name": "Duelist",
-        "tier": "basic",
-        "type": "green",
-        "weapons": ["daggers"],
-        "classes": {
-            "evocation": "Cutthroat",
-            "ultima": "Merciless Champion"
-        },
-        "jobAffinityBonuses": {
-            "250": {
-                "name": "Outlaw's Soul",
-                "description": "Daggers: Forward/Rear/Side attack links can now be chained up to two times in a row."
-            },
-            "400": {
-                "name": "Dagger Master",
-                "description": "Daggers: Enables the use of all weapon abilities for the daggers and increases damage dealt with dagger combo abilities. Including Weak Spot."
-            },
-            "600": {
-                "name": "Memories of a Hate-Filled Avenger",
-                "description": "Reduces the MP cost of dagger combo abilities while daggers are equipped. Also enhances the effects of Duelist's Wisdom."
-            }
-        }
-    },
-    {
-        "name": "Pugilist",
-        "tier": "basic",
-        "type": "green",
-        "weapons": ["knuckles"],
-        "classes": {
-            "evocation": "Martial Master",
-            "ultima": "Iron Fist Champion"
-        },
-        "jobAffinityBonuses": {
-            "250": {
-                "name": "Brawler's Soul",
-                "description": "Knuckles: Reduces the enemy's max break gauge when hitting with a strong attack (Hold R1)."
-            },
-            "400": {
-                "name": "Grappling Master",
-                "description": "Knuckles: Enables the use of all weapon abilities for the knuckles and increases damage dealt with knuckles combo abilities. Including Explosive Fist."
-            },
-            "600": {
-                "name": "Memories of a Brash Martial Artist",
-                "description": "Reduces the MP cost of knuckles combo abilities while knuckles are equipped. Also enhances the effects of Pugilist's Wisdom."
-            }
-        }
-    },
-    {
-        "name": "Mage",
-        "tier": "basic",
-        "type": "blue",
-        "weapons": ["maces"],
-        "classes": {
-            "evocation": "Scholar General",
-            "ultima": "Accursed Champion"
-        },
-        "jobAffinityBonuses": {
-            "250": {
-                "name": "Sorcerer's Soul",
-                "description": "Mace: Refills your break gauge when hit by an enemy's attack during a rear attack link."
-            },
-            "400": {
-                "name": "Mace Master",
-                "description": "Mace: Enables the use of all weapon abilities for the mace and increases damage dealt with mace combo abilities. Including Magic."
-            },
-            "600": {
-                "name": "Memories of a Rhyming Mage",
-                "description": "Reduces the MP cost of Mace combo abilities while a Mace is equipped. Also enhances the effects of Mage's Wisdom."
-            }
-        }
-    },
-    {
-        "name": "Lancer",
-        "tier": "basic",
-        "type": "red",
-        "weapons": ["lances"],
-        "classes": {
-            "evocation": "Errant Champion",
-            "ultima": "Relentless Champion"
-        },
-        "jobAffinityBonuses": {
-            "250": {
-                "name": "Vanguard's Soul",
-                "description": "Lance: All side link attacks gain the Guard attribute."
-            },
-            "400": {
-                "name": "Spear Master",
-                "description": "Lance: Enables the use of all weapon abilities for the lance and increases damage dealt with lance combo abilities.Including Lance Hurl."
-            },
-            "600": {
-                "name": "Memories of an Honorable Lancer",
-                "description": "Reduces the MP cost of lance combo abilities while a lance is equipped. Also enhances the effects of Lancer's Wisdom."
-            }
-        }
-    },
-    {
-        "name": "Swordfighter",
-        "tier": "basic",
-        "type": "red",
-        "weapons": ["swords"],
-        "classes": {
-            "evocation": "Divine Champion",
-            "ultima": "Demonslayer Champion"
-        },
-        "jobAffinityBonuses": {
-            "250": {
-                "name": "Fencer's Soul",
-                "description": "Sword: The strong attack (hold R1) will now include a quick rush forward toward the enemy."
-            },
-            "400": {
-                "name": "Sword Master",
-                "description": "Sword: Enables the use of all weapon abilities for the sword and increases damage dealt with sword combo abilities. Including Interception."
-            },
-            "600": {
-                "name": "Memories of a Void Challenger",
-                "description": "Reduces the MP cost of Sword combo abilities while a Sword is equipped. Also enhances the effects of Swordfighter's Wisdom."
             }
         }
     },
@@ -168,6 +76,30 @@
         }
     },
     {
+        "name": "Pugilist",
+        "tier": "basic",
+        "type": "green",
+        "weapons": ["knuckles"],
+        "classes": {
+            "evocation": "Martial Master",
+            "ultima": "Iron Fist Champion"
+        },
+        "jobAffinityBonuses": {
+            "250": {
+                "name": "Brawler's Soul",
+                "description": "Knuckles: Reduces the enemy's max break gauge when hitting with a strong attack (Hold R1)."
+            },
+            "400": {
+                "name": "Grappling Master",
+                "description": "Knuckles: Enables the use of all weapon abilities for the knuckles and increases damage dealt with knuckles combo abilities. Including Explosive Fist."
+            },
+            "600": {
+                "name": "Memories of a Brash Martial Artist",
+                "description": "Reduces the MP cost of knuckles combo abilities while knuckles are equipped. Also enhances the effects of Pugilist's Wisdom."
+            }
+        }
+    },
+    {
         "name": "Marauder",
         "tier": "basic",
         "type": "red",
@@ -188,6 +120,78 @@
             "600": {
                 "name": "Memories of a Paternal Calamity",
                 "description": "Reduces the MP cost of axe combo abilities while a axe is equipped. Also enhances the effects of Marauder's Wisdom."
+            }
+        }
+    },
+    {
+        "name": "Mage",
+        "tier": "basic",
+        "type": "blue",
+        "weapons": ["maces"],
+        "classes": {
+            "evocation": "Scholar General",
+            "ultima": "Accursed Champion"
+        },
+        "jobAffinityBonuses": {
+            "250": {
+                "name": "Sorcerer's Soul",
+                "description": "Mace: Refills your break gauge when hit by an enemy's attack during a rear attack link."
+            },
+            "400": {
+                "name": "Mace Master",
+                "description": "Mace: Enables the use of all weapon abilities for the mace and increases damage dealt with mace combo abilities. Including Magic."
+            },
+            "600": {
+                "name": "Memories of a Rhyming Mage",
+                "description": "Reduces the MP cost of Mace combo abilities while a Mace is equipped. Also enhances the effects of Mage's Wisdom."
+            }
+        }
+    },
+    {
+        "name": "Duelist",
+        "tier": "basic",
+        "type": "green",
+        "weapons": ["daggers"],
+        "classes": {
+            "evocation": "Cutthroat",
+            "ultima": "Merciless Champion"
+        },
+        "jobAffinityBonuses": {
+            "250": {
+                "name": "Outlaw's Soul",
+                "description": "Daggers: Forward/Rear/Side attack links can now be chained up to two times in a row."
+            },
+            "400": {
+                "name": "Dagger Master",
+                "description": "Daggers: Enables the use of all weapon abilities for the daggers and increases damage dealt with dagger combo abilities. Including Weak Spot."
+            },
+            "600": {
+                "name": "Memories of a Hate-Filled Avenger",
+                "description": "Reduces the MP cost of dagger combo abilities while daggers are equipped. Also enhances the effects of Duelist's Wisdom."
+            }
+        }
+    },
+    {
+        "name": "Lancer",
+        "tier": "basic",
+        "type": "red",
+        "weapons": ["lances"],
+        "classes": {
+            "evocation": "Errant Champion",
+            "ultima": "Relentless Champion"
+        },
+        "jobAffinityBonuses": {
+            "250": {
+                "name": "Vanguard's Soul",
+                "description": "Lance: All side link attacks gain the Guard attribute."
+            },
+            "400": {
+                "name": "Spear Master",
+                "description": "Lance: Enables the use of all weapon abilities for the lance and increases damage dealt with lance combo abilities.Including Lance Hurl."
+            },
+            "600": {
+                "name": "Memories of an Honorable Lancer",
+                "description": "Reduces the MP cost of lance combo abilities while a lance is equipped. Also enhances the effects of Lancer's Wisdom."
             }
         }
     },

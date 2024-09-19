@@ -106,8 +106,8 @@ pub fn get_job_affinity_sums(equipment_affinities: Vec<EquipmentAffinity>) -> Ha
     let mut job_affinity_sums: HashMap<String, u32> = HashMap::new();
 
     for equipment in equipment_affinities {
-        for job in equipment.job_names {
-            upsert_into_hashmap(&mut job_affinity_sums, job, equipment.strength);
+        for (job, strength) in equipment.get_affinity_strengths() {
+            *job_affinity_sums.entry(job.to_string()).or_insert(0) += strength;
         }
     }
 
@@ -120,7 +120,7 @@ pub fn get_job_names() -> Vec<String> {
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
 
-    let job_names: Vec<String> = jobs.iter().map(|job| job.name.clone()).collect();
+    let job_names = jobs.iter().map(|job| job.name.clone()).collect();
     job_names
 }
 
@@ -131,53 +131,51 @@ pub fn get_equipment_slot_names() -> Vec<String> {
         .collect()
 }
 
-// Takes view model data, returns model data. Where to put this...?
 fn map_formdata_to_equipment_affinities(form_data: FormData) -> Vec<EquipmentAffinity> {
-    let weapon = EquipmentAffinity {
-        slot: "weapon".to_string(),
-        job_names: vec![form_data.weapon_job1, form_data.weapon_job2],
-        strength: form_data.weapon_strength,
-    };
-    let shield = EquipmentAffinity {
-        slot: "shield".to_string(),
-        job_names: vec![form_data.shield_job1, form_data.shield_job2],
-        strength: form_data.shield_strength,
-    };
-    let head = EquipmentAffinity {
-        slot: "head".to_string(),
-        job_names: vec![form_data.head_job1, form_data.head_job2],
-        strength: form_data.head_strength,
-    };
-    let chest = EquipmentAffinity {
-        slot: "chest".to_string(),
-        job_names: vec![form_data.chest_job1, form_data.chest_job2],
-        strength: form_data.chest_strength,
-    };
-    let hands = EquipmentAffinity {
-        slot: "hands".to_string(),
-        job_names: vec![form_data.hands_job1, form_data.hands_job2],
-        strength: form_data.hands_strength,
-    };
-    let legs = EquipmentAffinity {
-        slot: "legs".to_string(),
-        job_names: vec![form_data.legs_job1, form_data.legs_job2],
-        strength: form_data.legs_strength,
-    };
-    let feet = EquipmentAffinity {
-        slot: "feet".to_string(),
-        job_names: vec![form_data.feet_job1, form_data.feet_job2],
-        strength: form_data.feet_strength,
-    };
+    let equipment_data = vec![
+        (
+            "weapon",
+            vec![form_data.weapon_job1, form_data.weapon_job2],
+            form_data.weapon_strength,
+        ),
+        (
+            "shield",
+            vec![form_data.shield_job1, form_data.shield_job2],
+            form_data.shield_strength,
+        ),
+        (
+            "head",
+            vec![form_data.head_job1, form_data.head_job2],
+            form_data.head_strength,
+        ),
+        (
+            "chest",
+            vec![form_data.chest_job1, form_data.chest_job2],
+            form_data.chest_strength,
+        ),
+        (
+            "hands",
+            vec![form_data.hands_job1, form_data.hands_job2],
+            form_data.hands_strength,
+        ),
+        (
+            "legs",
+            vec![form_data.legs_job1, form_data.legs_job2],
+            form_data.legs_strength,
+        ),
+        (
+            "feet",
+            vec![form_data.feet_job1, form_data.feet_job2],
+            form_data.feet_strength,
+        ),
+    ];
 
-    vec![weapon, shield, head, chest, hands, legs, feet]
-}
-
-
-/// Either inserts or updates into the given hashmap.
-/// If updating, the new value is the sum of the original value and the updating value.
-fn upsert_into_hashmap(hashmap: &mut HashMap<String, u32>, key: String, value: u32) {
-    hashmap
-        .entry(key)
-        .and_modify(|e| *e += value)
-        .or_insert(value);
+    equipment_data
+        .into_iter()
+        .map(|(slot, job_names, strength)| EquipmentAffinity {
+            slot: slot.to_string(),
+            job_names,
+            strength,
+        })
+        .collect()
 }

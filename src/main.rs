@@ -73,7 +73,8 @@ async fn update(Form(form_data): Form<FormData>) -> Html<String> {
     let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View
-    let result = active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs);
+    let result =
+        active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs);
 
     Html(result.into())
 }
