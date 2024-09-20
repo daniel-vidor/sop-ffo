@@ -27,7 +27,7 @@ pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>)
                     (equipment_form_template(equipment_slot_names, &job_names))
                 }
 
-                h2 { "Result" }
+                h2 { "Active Job Affinity Bonuses" }
                 div id="result" {
                     p { "Please select an option to see the result." }
                 }

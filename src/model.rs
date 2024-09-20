@@ -6,19 +6,32 @@ use crate::{
     FormData,
 };
 
+enum JobTier {
+    Basic,
+    Advanced,
+    Expert,
+}
+
+enum JobType {
+    Red,
+    Orange,
+    Green,
+    Blue,
+}
+
 #[derive(Deserialize, Debug)]
 pub struct Job {
     pub name: String,
     pub tier: String,
     pub r#type: String,
-    pub weapons: Vec<String>,
+    // pub weapons: Vec<String>,
     // pub classes
-    #[serde(rename(deserialize = "jobAffinityBonuses"))]
-    pub affinities: Affinities,
+    #[serde(rename(deserialize = "affinityBonuses"))]
+    pub affinity_bonuses: AffinityBonuses,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Affinities {
+pub struct AffinityBonuses {
     #[serde(rename(deserialize = "250"))]
     _250: AffinityBonus,
     #[serde(rename(deserialize = "400"))]
@@ -27,7 +40,7 @@ pub struct Affinities {
     _600: AffinityBonus,
 }
 
-impl Affinities {
+impl AffinityBonuses {
     pub fn get_affinity_bonuses(&self, affinity_strength: u32) -> Vec<AffinityBonus> {
         let mut result = vec![];
 
@@ -88,7 +101,7 @@ pub fn get_active_affinity_bonuses(
         }
 
         let active_affinity_bonuses = job
-            .affinities
+            .affinity_bonuses
             .get_affinity_bonuses(job_affinity_strength)
             .clone();
         active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);

@@ -12,18 +12,26 @@
             "evocation": "Divine Commander",
             "ultima": "Demonslayer Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
+            "50": {
+                "name": "Shield Bonus I",
+                "description": "Increases break gauge recovery speed by 7.5% when a shield is equipped."
+            },
+            "120": {
+                "name": "Shield Bonus II",
+                "description": "Increases break gauge recovery speed by 12.5% when a shield is equipped."
+            },
             "250": {
                 "name": "Fencer's Soul",
                 "description": "Sword: The strong attack (hold R1) will now include a quick rush forward toward the enemy."
             },
             "400": {
                 "name": "Sword Master",
-                "description": "Sword: Enables the use of all weapon abilities for the sword and increases damage dealt with sword combo abilities. Including Interception."
+                "description": "Sword: Enables the use of all weapon abilities for the sword and increases damage dealt with sword combo abilities. Grants the Swordfighter's Interception upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Void Challenger",
-                "description": "Reduces the MP cost of Sword combo abilities while a Sword is equipped. Also enhances the effects of Swordfighter's Wisdom."
+                "description": "Reduces the MP cost of Sword combo abilities while a Sword is equipped."
             }
         }
     },
@@ -36,18 +44,18 @@
             "evocation": "Conqueror",
             "ultima": "Lightbreaker Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Soldier's Soul",
                 "description": "Greatsword: Increases attack speed on a successful enhanced guard."
             },
             "400": {
                 "name": "Greatsword Master",
-                "description": "Greatsword: Enables the use of all weapon abilities for the greatsword and increases damage dealt with greatsword combo abilities. Including Spinning Slash."
+                "description": "Greatsword: Enables the use of all weapon abilities for the greatsword and increases damage dealt with greatsword combo abilities. Grants the Swordsman's Spinning Slash upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Scarred Mercenary",
-                "description": "Reduces the MP cost of greatsword combo abilities while a greatsword is equipped. Also enhances the effects of Swordsman's Wisdom."
+                "description": "Reduces the MP cost of greatsword combo abilities while a greatsword is equipped."
             }
         }
     },
@@ -60,18 +68,18 @@
             "evocation": "Wandering Hero",
             "ultima": "Shadowburst Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Blademaster's Soul",
                 "description": "Katana: Temporarily increases break gauge recovery when hitting with a rear attack link."
             },
             "400": {
                 "name": "Katana Master",
-                "description": "Katana: Enables the use of all weapon abilities for the katana and increases damage dealt with katana combo abilities. Including Iai-Giri."
+                "description": "Katana: Enables the use of all weapon abilities for the katana and increases damage dealt with katana combo abilities. Grants the Ronin's Iai-Giri upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Mother's Soldier",
-                "description": "Reduces the MP cost of katana combo abilities while a katana is equipped. Also enhances the effects of Ronin's Wisdom."
+                "description": "Reduces the MP cost of katana combo abilities while a katana is equipped."
             }
         }
     },
@@ -84,18 +92,18 @@
             "evocation": "Martial Master",
             "ultima": "Iron Fist Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Brawler's Soul",
                 "description": "Knuckles: Reduces the enemy's max break gauge when hitting with a strong attack (Hold R1)."
             },
             "400": {
                 "name": "Grappling Master",
-                "description": "Knuckles: Enables the use of all weapon abilities for the knuckles and increases damage dealt with knuckles combo abilities. Including Explosive Fist."
+                "description": "Knuckles: Enables the use of all weapon abilities for the knuckles and increases damage dealt with knuckles combo abilities. Grants the Pugilist's Explosive Fists upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Brash Martial Artist",
-                "description": "Reduces the MP cost of knuckles combo abilities while knuckles are equipped. Also enhances the effects of Pugilist's Wisdom."
+                "description": "Reduces the MP cost of knuckles combo abilities while knuckles are equipped."
             }
         }
     },
@@ -108,18 +116,18 @@
             "evocation": "Axe Lord",
             "ultima": "Bloodaxe Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Barbarian's Soul",
                 "description": "Axe: Charged attacks now have four possible stages."
             },
             "400": {
                 "name": "Axe Master",
-                "description": "Axe: Enables the use of all weapon abilities for the axe and increases damage dealt with axe combo abilities. Including Upheaval."
+                "description": "Axe: Enables the use of all weapon abilities for the axe and increases damage dealt with axe combo abilities. Grants the Marauder's Upheaval upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Paternal Calamity",
-                "description": "Reduces the MP cost of axe combo abilities while a axe is equipped. Also enhances the effects of Marauder's Wisdom."
+                "description": "Reduces the MP cost of axe combo abilities while a axe is equipped."
             }
         }
     },
@@ -132,18 +140,18 @@
             "evocation": "Scholar General",
             "ultima": "Accursed Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Sorcerer's Soul",
                 "description": "Mace: Refills your break gauge when hit by an enemy's attack during a rear attack link."
             },
             "400": {
                 "name": "Mace Master",
-                "description": "Mace: Enables the use of all weapon abilities for the mace and increases damage dealt with mace combo abilities. Including Magic."
+                "description": "Mace: Enables the use of all weapon abilities for the mace and increases damage dealt with mace combo abilities. Grants Mage's Fire, Water, Quake, and Aero upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Rhyming Mage",
-                "description": "Reduces the MP cost of Mace combo abilities while a Mace is equipped. Also enhances the effects of Mage's Wisdom."
+                "description": "Reduces the MP cost of Mace combo abilities while a Mace is equipped."
             }
         }
     },
@@ -156,18 +164,18 @@
             "evocation": "Cutthroat",
             "ultima": "Merciless Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Outlaw's Soul",
                 "description": "Daggers: Forward/Rear/Side attack links can now be chained up to two times in a row."
             },
             "400": {
                 "name": "Dagger Master",
-                "description": "Daggers: Enables the use of all weapon abilities for the daggers and increases damage dealt with dagger combo abilities. Including Weak Spot."
+                "description": "Daggers: Enables the use of all weapon abilities for the daggers and increases damage dealt with dagger combo abilities. Grants the Duelist's Weak Spot upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Hate-Filled Avenger",
-                "description": "Reduces the MP cost of dagger combo abilities while daggers are equipped. Also enhances the effects of Duelist's Wisdom."
+                "description": "Reduces the MP cost of dagger combo abilities while daggers are equipped."
             }
         }
     },
@@ -180,18 +188,18 @@
             "evocation": "Errant Champion",
             "ultima": "Relentless Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Vanguard's Soul",
                 "description": "Lance: All side link attacks gain the Guard attribute."
             },
             "400": {
                 "name": "Spear Master",
-                "description": "Lance: Enables the use of all weapon abilities for the lance and increases damage dealt with lance combo abilities.Including Lance Hurl."
+                "description": "Lance: Enables the use of all weapon abilities for the lance and increases damage dealt with lance combo abilities. Grants the Lancer's Lance Hurl upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of an Honorable Lancer",
-                "description": "Reduces the MP cost of lance combo abilities while a lance is equipped. Also enhances the effects of Lancer's Wisdom."
+                "description": "Reduces the MP cost of lance combo abilities while a lance is equipped."
             }
         }
     },
@@ -204,18 +212,18 @@
             "evocation": "Fey Wraith",
             "ultima": "Truthseeker Champion"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Mysidian Soul",
                 "description": "Staff: Become invincible during staff rear attack links."
             },
             "400": {
                 "name": "Staff Master",
-                "description": "Staff: Enables the use of all weapon abilities for the staff and increases damage dealt with staff combo abilities. Including Assault Hook."
+                "description": "Staff: Enables the use of all weapon abilities for the staff and increases damage dealt with staff combo abilities. Grants the Pilgrim's Assault Hook upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Void Emissary",
-                "description": "Reduces the MP cost of staff combo abilities while a staff is equipped. Also enhances the effects of Pilgrim's Wisdom."
+                "description": "Reduces the MP cost of staff combo abilities while a staff is equipped."
             }
         }
     },
@@ -228,18 +236,493 @@
             "evocation": "Master Marksman",
             "ultima": "Gun Mage"
         },
-        "jobAffinityBonuses": {
+        "affinityBonuses": {
             "250": {
                 "name": "Fatal Attack",
                 "description": "Gun: Using a normal attack while rolling will perform a crouching attack."
             },
             "400": {
                 "name": "Gun Master",
-                "description": "Gun: Enables the use of all weapon abilities for the gun and increases damage dealt with gun combo abilities. Including Dazing Bullet."
+                "description": "Gun: Enables the use of all weapon abilities for the gun and increases damage dealt with gun combo abilities. Grants the Marksman's Dazing Bullet upon reaching Lufenia difficulty."
             },
             "600": {
                 "name": "Memories of a Storied President",
-                "description": "Reduces the MP cost of gun combo abilities while a gun is equipped. Also enhances the effects of Marksman's Wisdom."
+                "description": "Reduces the MP cost of gun combo abilities while a gun is equipped."
+            }
+        }
+    },
+	{
+        "name": "Warrior",
+        "tier": "advanced",
+        "type": "orange",
+        "affinityBonuses": {
+            "250": {
+                "name": "Thirst for Battle",
+                "description": "Reduces the MP cost of abilities affected by a combo ability activation. (-20% Combo Ability MP cost)"
+            },
+            "400": {
+                "name": "Bloody Rage",
+                "description": "Reduces the max break gauge when targeting enemy weakness."
+            },
+            "600": {
+                "name": "Memories of a Steadfast Mercenary",
+                "description": "When your HP is at max, enhance your physical attacks to pierce an enemy's resistance and strike their weak points more easily. (+15% Physical Weakness Damage)"
+            }
+        }
+    },
+    {
+        "name": "Knight",
+        "tier": "advanced",
+        "type": "orange",
+        "affinityBonuses": {
+            "250": {
+                "name": "Knight's Pride",
+                "description": "Applies an additional stamina bonus to all abilities that grant stat bonuses."
+            },
+            "400": {
+                "name": "Invincible",
+                "description": "Grants immunity to enemy attacks while lightbringer is active, but also reduces its duration."
+            },
+            "600": {
+                "name": "Memories of a Warrior's Sentinel",
+                "description": "A successful soul shield increases your stamina. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Berserker",
+        "tier": "advanced",
+        "type": "red",
+        "affinityBonuses": {
+            "250": {
+                "name": "Savage Awakening",
+                "description": "Automatically grants the effects of protect and shell when near death."
+            },
+            "400": {
+                "name": "Inner Instinct ",
+                "description": "Gradually restores MP while lightbringer is active."
+            },
+            "600": {
+                "name": "Memories of a Fallen Knight ",
+                "description": "Activates the effects of lightbringer when you soul burst an enemy."
+            }
+        }
+    },
+    {
+        "name": "Thief",
+        "tier": "advanced",
+        "type": "green",
+        "affinityBonuses": {
+            "250": {
+                "name": "Feather of Fortune",
+                "description": "Applies an additional luck bonus to all abilities that grant stat bonuses."
+            },
+            "400": {
+                "name": "Treasure Hunter",
+                "description": "Makes it easier to acquire rare equipment."
+            },
+            "600": {
+                "name": "Memories of a Bright-Eyed Thief",
+                "description": " A successful soul shield increases your luck. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Monk",
+        "tier": "advanced",
+        "type": "green",
+        "affinityBonuses": {
+            "250": {
+                "name": "Vigor",
+                "description": "Increases the duration of all buffs activated by a successful parry."
+            },
+            "400": {
+                "name": "Mantra",
+                "description": "Greatly increases max HP."
+            },
+            "600": {
+                "name": "Memories of a Loyal Monk",
+                "description": "Deal additional non-elemental damage based on your max HP."
+            }
+        }
+    },
+    {
+        "name": "White Mage",
+        "tier": "advanced",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Prayer for Life",
+                "description": "Applies an additional spirit bonus to all abilities that grant stat bonuses."
+            },
+            "400": {
+                "name": "Auto-Reraise",
+                "description": "Automatically revives a fallen character once."
+            },
+            "600": {
+                "name": "Memories of a Kind Maiden",
+                "description": "A successful soul shield increases your spirit. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Black Mage",
+        "tier": "advanced",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Prayer for Death",
+                "description": "Applies an additional intellect bonus to all abilities that grant stat bonuses."
+            },
+            "400": {
+                "name": "Riot Magic",
+                "description": "Increases MP limit based on magic damage dealt."
+            },
+            "600": {
+                "name": "Memories of a Puppet Awakened",
+                "description": "A successful soul shield increases your intellect. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Red Mage",
+        "tier": "advanced",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Quick Charge",
+                "description": "Decreases the amount of time required to charge attacks."
+            },
+            "400": {
+                "name": "Calamitous Magic",
+                "description": "Increases MP limit and restores MP when inflicting a status ailment on an enemy."
+            },
+            "600": {
+                "name": "Memories of a Crimson Dawn",
+                "description": "Inflicting enough magic damage will cause your next ability to do increased physical damage. This effect can stack up to three times."
+            }
+        }
+    },
+    {
+        "name": "Dragoon",
+        "tier": "advanced",
+        "type": "red",
+        "affinityBonuses": {
+            "250": {
+                "name": "Dragon's Might",
+                "description": "Enemies defeated by an action ability will be finished with a soul burst."
+            },
+            "400": {
+                "name": "Sovereign of the Skies",
+                "description": "Increases attack speed while lightbringer is active."
+            },
+            "600": {
+                "name": "Memories of a Coward Redeemed",
+                "description": "Recover HP and MP whenever exploiting an enemy's weakness."
+            }
+        }
+    },
+    {
+        "name": "Samurai",
+        "tier": "advanced",
+        "type": "red",
+        "affinityBonuses": {
+            "250": {
+                "name": "Power in Perseverance",
+                "description": "Temporarily increases damage dealt after a chain cancel."
+            },
+            "400": {
+                "name": "Mind's Eye",
+                "description": "A successful parry will cause the next ability to critically hit."
+            },
+            "600": {
+                "name": "Memories of a Grizzled Veteran",
+                "description": "When a combo ability effect is triggered, effects that trigger on a successful parry are also activated."
+            }
+        }
+    },
+    {
+        "name": "Evoker",
+        "tier": "advanced",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Apothecary's Insight",
+                "description": "Using a potion also cures status ailments."
+            },
+            "400": {
+                "name": "Clear Mind",
+                "description": "MP slowly recovers when HP is at max."
+            },
+            "600": {
+                "name": "Memories of a Jeweled Dagger",
+                "description": "Refills break gauge on a successful soul shield."
+            }
+        }
+    },
+    {
+        "name": "Hunter",
+        "tier": "advanced",
+        "type": "green",
+        "affinityBonuses": {
+            "250": {
+                "name": "Back Attack",
+                "description": "Makes it easier to perform critical hits from behind and increases their critical chance."
+            },
+            "400": {
+                "name": "MP Circulation",
+                "description": "Restores MP on hit by a fixed amount regardless of damage dealt."
+            },
+            "600": {
+                "name": "Memories of the Last Hunter",
+                "description": "Deals additional break damage based on agility when exploiting an enemy weakness."
+            }
+        }
+    },
+    {
+        "name": "Dark Knight",
+        "tier": "expert",
+        "type": "red",
+        "affinityBonuses": {
+            "250": {
+                "name": "Flames of Rebellion",
+                "description": "Increases damage dealt when being targeted by an enemy."
+            },
+            "400": {
+                "name": "Last Resort",
+                "description": "All effects that trigger when near death are active at all times."
+            },
+            "600": {
+                "name": "Memories of a Power-Hungry Knight",
+                "description": "Recovers HP based on the amount of MP gained by normal attacks."
+            }
+        }
+    },
+    {
+        "name": "Paladin",
+        "tier": "expert",
+        "type": "orange",
+        "affinityBonuses": {
+            "250": {
+                "name": "Bringer of Light",
+                "description": "Gradually restores HP when lightbringer is active."
+            },
+            "400": {
+                "name": "Purifying Light",
+                "description": "Grants immunity to all status ailments."
+            },
+            "600": {
+                "name": "Memories of a Tested Paladin",
+                "description": "A successful soul shield increases your HP. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Ninja",
+        "tier": "expert",
+        "type": "green",
+        "affinityBonuses": {
+            "250": {
+                "name": "Fatal Blow",
+                "description": "Critical hits will reduce the enemy's max break gauge."
+            },
+            "400": {
+                "name": "Way of the Ninja",
+                "description": "All ability attacks will temporarily decrease enemy break gauge recovery."
+            },
+            "600": {
+                "name": "Memories of a Nimble Ninja",
+                "description": "After evading an enemy attack with evade invincibility, restores MP."
+            }
+        }
+    },
+    {
+        "name": "Assassin",
+        "tier": "expert",
+        "type": "green",
+        "affinityBonuses": {
+            "250": {
+                "name": "Ephemeral Thoughts",
+                "description": "Applies an additional agility bonus to all abilities that grant stat bonuses."
+            },
+            "400": {
+                "name": "Final Moments",
+                "description": "Increases break damage dealt the longer you avoid taking damage."
+            },
+            "600": {
+                "name": "Memories of a Shadowy Mercenary",
+                "description": "A successful soul shield increases your agility. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Liberator",
+        "tier": "expert",
+        "type": "orange",
+        "affinityBonuses": {
+            "250": {
+                "name": "Hero's Guidance",
+                "description": "Shares the effects of potions with your allies."
+            },
+            "400": {
+                "name": "Hero's Guidance",
+                "description": "Shares the effects of potions with your allies."
+            },
+            "600": {
+                "name": "Memories of a Godslayer",
+                "description": "Increases party member stats by a certain percentage of your strength, agility, stamina, intellect, spirit, and luck."
+            }
+        }
+    },
+    {
+        "name": "Breaker",
+        "tier": "expert",
+        "type": "red",
+        "affinityBonuses": {
+            "250": {
+                "name": "Power Seeker",
+                "description": "Applies an additional strength bonus to all abilities that grant bonuses."
+            },
+            "400": {
+                "name": "Shadowbreaker",
+                "description": "Increases damage dealt after a successful soul burst. Triggering another soul burst while this effect is active further increases the damage bonus."
+            },
+            "600": {
+                "name": "Memories of the Starscourged",
+                "description": "A successful soul shield increases your Strength. This effect can stack up to twenty times."
+            }
+        }
+    },
+    {
+        "name": "Void Knight",
+        "tier": "expert",
+        "type": "orange",
+        "affinityBonuses": {
+            "250": {
+                "name": "Void Rune",
+                "description": "Increases potency of MP recovery effects."
+            },
+            "400": {
+                "name": "Power of the Void",
+                "description": "Greatly reduces the cost of command abilities."
+            },
+            "600": {
+                "name": "Memories of a Disillusioned Knight",
+                "description": "Grants the effect of haste when your max MP is 400 or higher."
+            }
+        }
+    },
+    {
+        "name": "Tyrant",
+        "tier": "expert",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Tyrant's Trap",
+                "description": "Restores HP based on damage dealt when targeting enemy weaknesses."
+            },
+            "400": {
+                "name": "Absolute Dominion",
+                "description": "All attacks against an enemy afflicted with a status ailment will critically hit."
+            },
+            "600": {
+                "name": "Memories of a Tyrant",
+                "description": "Temporarily increases the amount of MP gained by normal attacks after performing a chain cancel."
+            }
+        }
+    },
+    {
+        "name": "Sage",
+        "tier": "expert",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Elemental Force",
+                "description": "Nullifies all magic damage while guarding."
+            },
+            "400": {
+                "name": "Ancient Knowledge",
+                "description": "Potions now also restore MP and refill break gauge."
+            },
+            "600": {
+                "name": "Memories of a Wizard Who Defied Death",
+                "description": "Lightbringer can be used while afflicted with any status ailment, and using it will cure all status ailments and debuffs while recovering HP."
+            }
+        }
+    },
+    {
+        "name": "Summoner",
+        "tier": "expert",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Mist Blessing",
+                "description": "Decreases sustained MP cost."
+            },
+            "400": {
+                "name": "Trance Soul",
+                "description": "A successful soul shield increases the duration of active buffs."
+            },
+            "600": {
+                "name": "Memories of a Pious Summoner",
+                "description": "Increases the potency of your primary summon's blessing."
+            }
+        }
+    },
+    {
+        "name": "Cyclic Warrior",
+        "tier": "expert",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Fearless Soul",
+                "description": "Gradually increases MP limit when MP limit is below 200."
+            },
+            "400": {
+                "name": "Divine Punishment",
+                "description": "Using a soul burst while lightbringer is active will increase lightbringer's duration."
+            },
+            "600": {
+                "name": "Memories of He Who Walks With Chaos",
+                "description": "Effects that activate on a successful soul shield will also activate on lightbringer."
+            }
+        }
+    },
+    {
+        "name": "Blue Mage",
+        "tier": "expert",
+        "type": "blue",
+        "affinityBonuses": {
+            "250": {
+                "name": "Learning",
+                "description": "Increases the number of instant ability uses gained on a successful soul shield."
+            },
+            "400": {
+                "name": "Burst Affinity",
+                "description": "When hitting with an enemy ability, restores MP based on damage dealt."
+            },
+            "600": {
+                "name": "Memories of a Azure Adventurer",
+                "description": "Inflicting enough physical damage will cause your next ability to do increased magic damage. This effect can stack up to three times."
+            }
+        }
+    },
+    {
+        "name": "Gambler",
+        "tier": "expert",
+        "type": "green",
+        "affinityBonuses": {
+            "250": {
+                "name": "Fortune's Favorite",
+                "description": "Occasionally nullifies damage when an enemy attack hits. This chance increases with the luck stat."
+            },
+            "400": {
+                "name": "Lucky Punch",
+                "description": "All attacks have a small chance to become critical hits. This chance increases with the luck stat."
+            },
+            "600": {
+                "name": "Memories of a Wingless Gambler",
+                "description": "Increases break damage dealt. This effect is more potent with less MP."
             }
         }
     }
