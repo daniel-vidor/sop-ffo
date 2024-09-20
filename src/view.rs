@@ -8,7 +8,8 @@ pub fn head_template() -> Markup {
     html! {
         head {
             title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
-            link rel="icon" href="static/favicon.png" {}
+            link rel="icon" href="/static/favicon.png" {}
+            link rel="stylesheet" href="/static/styles.css";
             script src="https://unpkg.com/htmx.org@1.9.2" {}
         }
     }
@@ -30,7 +31,7 @@ pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>)
                     (equipment_form_template(equipment_slot_names, &job_names))
                 }
 
-                h2 { "Active Job Affinity Bonuses" }
+                h2 { "Job Affinity Bonus" }
                 div id="result" {
                     p { "Please select an option to see the result." }
                 }
@@ -39,38 +40,38 @@ pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>)
     }
 }
 
-pub fn active_job_template(jobs: &Vec<String>) -> Markup {
+pub fn active_job_template(job_names: &Vec<String>) -> Markup {
     html! {
         select name="active_job" {
-            (get_job_options(jobs))
+            (get_job_options(job_names))
         }
         input name="active_job_strength"
             type="number" min="0" max="999" value="50" {} "%"
     }
 }
 
-pub fn equipment_form_template(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
+pub fn equipment_form_template(slot_names: Vec<String>, job_names: &Vec<String>) -> Markup {
     html! {
-        @for slot in slots {
+        @for slot_name in slot_names {
             div {
-                label for=(slot) {(capitalise_first_letter(&slot))}
-                select name=(format!("{slot}_job1")) {
-                    (get_job_options(jobs))
+                label for=(slot_name) {(capitalise_first_letter(&slot_name))}
+                select name=(format!("{slot_name}_job1")) {
+                    (get_job_options(job_names))
                 }
-                select name=(format!("{slot}_job2")) {
-                    (get_job_options(jobs))
+                select name=(format!("{slot_name}_job2")) {
+                    (get_job_options(job_names))
                 }
-                input name=(format!("{slot}_strength"))
+                input name=(format!("{slot_name}_strength"))
                     type="number" min="0" max="999" value="250" {} "%"
             }
         }
     }
 }
 
-fn get_job_options(jobs: &Vec<String>) -> Markup {
+fn get_job_options(job_names: &Vec<String>) -> Markup {
     html! {
-        @for job in jobs {
-            option value=(job) { (job) }
+        @for job_name in job_names {
+            option value=(job_name) { (job_name) }
         }
     }
 }

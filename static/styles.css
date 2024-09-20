@@ -1,0 +1,27 @@
+html {
+    font-family: sans-serif;
+    font-weight: lighter;
+    background-color: #00142e;
+    color: white;
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+    text-shadow: black 0 0 2px;
+}
+
+h1, h2 {
+    color: #ff703b;
+}
+
+h3 {
+    color: paleturquoise;
+}
+
+select {
+    margin: 2px 4px;
+}
+
+div {
+    background-color: #ffffff11;
+}
