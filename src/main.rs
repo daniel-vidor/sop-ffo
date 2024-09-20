@@ -52,6 +52,8 @@ async fn index() -> Html<String> {
 // TODO: Consider writing a macro to generate this struct
 #[derive(Deserialize, Debug)]
 struct FormData {
+    active_job: String,
+    active_job_strength: u32,
     weapon_job1: String,
     weapon_job2: String,
     weapon_strength: u32,
@@ -80,7 +82,7 @@ struct FormData {
  */
 async fn update(Form(form_data): Form<FormData>) -> Html<String> {
     // Model
-    let job_affinity_sums = get_job_affinity_sums_from_form_data(form_data);
+    let job_affinity_sums = get_job_affinity_sums_from_form_data(&form_data);
     let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View

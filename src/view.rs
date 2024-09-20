@@ -4,27 +4,29 @@ use maud::{html, Markup, DOCTYPE};
 
 use crate::model::AffinityBonus;
 
+pub fn head_template() -> Markup {
+    html! {
+        head {
+            title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
+            link rel="icon" href="favicon.png" {}
+            script src="https://unpkg.com/htmx.org@1.9.2" {}
+        }
+    }
+}
+
 pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>) -> Markup {
     html! {
         (DOCTYPE)
         html {
-            head {
-                title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
-                link rel="icon" href="favicon.png" {}
-                script src="https://unpkg.com/htmx.org@1.9.2" {}
-            }
+            (head_template())
             body {
                 h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
 
-                h2 { "Job" }
-                select {
-                    @for job_name in &job_names {
-                        option value=(job_name) { (job_name) }
-                    }
-                }
-
-                h2 { "Equipment" }
                 form hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
+                    h2 { "Job" }
+                    (active_job_template(&job_names))
+
+                    h2 { "Equipment" }
                     (equipment_form_template(equipment_slot_names, &job_names))
                 }
 
@@ -37,26 +39,38 @@ pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>)
     }
 }
 
-pub fn equipment_form_template(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
-    let job_select_options = html! {
-        @for job in jobs {
-            option value=(job) { (job) }
+pub fn active_job_template(jobs: &Vec<String>) -> Markup {
+    html! {
+        select name="active_job" {
+            (get_job_options(jobs))
         }
-    };
+        input name="active_job_strength"
+            type="number" min="0" max="999" value="50" {} "%"
+    }
+}
 
+pub fn equipment_form_template(slots: Vec<String>, jobs: &Vec<String>) -> Markup {
     html! {
         @for slot in slots {
             div {
                 label for=(slot) {(capitalise_first_letter(&slot))}
                 select name=(format!("{slot}_job1")) {
-                    (job_select_options)
+                    (get_job_options(jobs))
                 }
                 select name=(format!("{slot}_job2")) {
-                    (job_select_options)
+                    (get_job_options(jobs))
                 }
                 input name=(format!("{slot}_strength"))
-                    type="number" min="0" max="999" value="250" {}
+                    type="number" min="0" max="999" value="250" {} "%"
             }
+        }
+    }
+}
+
+fn get_job_options(jobs: &Vec<String>) -> Markup {
+    html! {
+        @for job in jobs {
+            option value=(job) { (job) }
         }
     }
 }

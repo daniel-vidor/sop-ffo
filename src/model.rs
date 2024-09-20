@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use std::collections::HashMap;
+use std::hash::Hash;
 
 use crate::{
     file_utils::{self, get_jobs},
@@ -110,21 +111,30 @@ pub fn get_active_affinity_bonuses(
     active_affinity_bonuses_for_jobs
 }
 
-pub fn get_job_affinity_sums_from_form_data(form_data: FormData) -> HashMap<String, u32> {
-    let equipment_affinities = map_formdata_to_equipment_affinities(form_data);
-    get_job_affinity_sums(equipment_affinities)
-}
-
-pub fn get_job_affinity_sums(equipment_affinities: Vec<EquipmentAffinity>) -> HashMap<String, u32> {
+pub fn get_job_affinity_sums_from_form_data(form_data: &FormData) -> HashMap<String, u32> {
     let mut job_affinity_sums: HashMap<String, u32> = HashMap::new();
 
+    // Equipment
+    let equipment_affinities = map_formdata_to_equipment_affinities(&form_data);
     for equipment in equipment_affinities {
         for (job, strength) in equipment.get_affinity_strengths() {
-            *job_affinity_sums.entry(job.to_string()).or_insert(0) += strength;
+            accumulate_or_insert_into_hashmap(&mut job_affinity_sums, job, strength);
         }
     }
 
+    // Active job
+    accumulate_or_insert_into_hashmap(
+        &mut job_affinity_sums,
+        form_data.active_job.clone(),
+        form_data.active_job_strength,
+    );
+
     job_affinity_sums
+}
+
+// TODO: Turn into a method (associated function)?
+fn accumulate_or_insert_into_hashmap<T>(hashmap: &mut HashMap<T, u32>, key: T, value: u32) where T: Eq, T: Hash {
+    *hashmap.entry(key).or_insert(0) += value;
 }
 
 pub fn get_job_names() -> Vec<String> {
@@ -144,41 +154,41 @@ pub fn get_equipment_slot_names() -> Vec<String> {
         .collect()
 }
 
-fn map_formdata_to_equipment_affinities(form_data: FormData) -> Vec<EquipmentAffinity> {
+fn map_formdata_to_equipment_affinities(form_data: &FormData) -> Vec<EquipmentAffinity> {
     let equipment_data = vec![
         (
             "weapon",
-            vec![form_data.weapon_job1, form_data.weapon_job2],
+            vec![form_data.weapon_job1.clone(), form_data.weapon_job2.clone()],
             form_data.weapon_strength,
         ),
         (
             "shield",
-            vec![form_data.shield_job1, form_data.shield_job2],
+            vec![form_data.shield_job1.clone(), form_data.shield_job2.clone()],
             form_data.shield_strength,
         ),
         (
             "head",
-            vec![form_data.head_job1, form_data.head_job2],
+            vec![form_data.head_job1.clone(), form_data.head_job2.clone()],
             form_data.head_strength,
         ),
         (
             "chest",
-            vec![form_data.chest_job1, form_data.chest_job2],
+            vec![form_data.chest_job1.clone(), form_data.chest_job2.clone()],
             form_data.chest_strength,
         ),
         (
             "hands",
-            vec![form_data.hands_job1, form_data.hands_job2],
+            vec![form_data.hands_job1.clone(), form_data.hands_job2.clone()],
             form_data.hands_strength,
         ),
         (
             "legs",
-            vec![form_data.legs_job1, form_data.legs_job2],
+            vec![form_data.legs_job1.clone(), form_data.legs_job2.clone()],
             form_data.legs_strength,
         ),
         (
             "feet",
-            vec![form_data.feet_job1, form_data.feet_job2],
+            vec![form_data.feet_job1.clone(), form_data.feet_job2.clone()],
             form_data.feet_strength,
         ),
     ];
