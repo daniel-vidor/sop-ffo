@@ -8,7 +8,7 @@ pub fn head_template() -> Markup {
     html! {
         head {
             title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
-            link rel="icon" href="favicon.png" {}
+            link rel="icon" href="static/favicon.png" {}
             script src="https://unpkg.com/htmx.org@1.9.2" {}
         }
     }

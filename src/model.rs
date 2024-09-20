@@ -133,7 +133,11 @@ pub fn get_job_affinity_sums_from_form_data(form_data: &FormData) -> HashMap<Str
 }
 
 // TODO: Turn into a method (associated function)?
-fn accumulate_or_insert_into_hashmap<T>(hashmap: &mut HashMap<T, u32>, key: T, value: u32) where T: Eq, T: Hash {
+fn accumulate_or_insert_into_hashmap<T>(hashmap: &mut HashMap<T, u32>, key: T, value: u32)
+where
+    T: Eq,
+    T: Hash,
+{
     *hashmap.entry(key).or_insert(0) += value;
 }
 
