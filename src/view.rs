@@ -10,6 +10,7 @@ pub fn index_template(equipment_slot_names: Vec<String>, job_names: Vec<String>)
         html {
             head {
                 title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
+                link rel="icon" href="favicon.png" {}
                 script src="https://unpkg.com/htmx.org@1.9.2" {}
             }
             body {

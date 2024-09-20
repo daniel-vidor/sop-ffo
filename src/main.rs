@@ -1,5 +1,6 @@
 use axum::{
     extract::Form,
+    http::StatusCode,
     response::Html,
     routing::{get, post},
     Router,
@@ -7,6 +8,7 @@ use axum::{
 
 use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use serde::Deserialize;
+use tower_http::services::ServeFile;
 use view::{active_job_affinities_template, index_template};
 
 mod file_utils;
@@ -16,9 +18,18 @@ mod view;
 
 #[tokio::main]
 async fn main() {
+    let favicon_service = axum::routing::get_service(ServeFile::new("./static/favicon.png"))
+        .handle_error(|error: std::io::Error| async move {
+            (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                format!("Error: {}", error),
+            )
+        });
+
     let app = Router::new()
         .route("/", get(index))
-        .route("/update", post(update));
+        .route("/update", post(update))
+        .route("/favicon.png", get(favicon_service));
 
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
