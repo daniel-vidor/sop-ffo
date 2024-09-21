@@ -1,19 +1,33 @@
 use serde::Deserialize;
-use std::collections::HashMap;
 use std::hash::Hash;
+use std::{collections::HashMap, fmt};
 
 use crate::{
     file_utils::{self, get_jobs},
     FormData,
 };
 
-enum JobTier {
+#[derive(Debug, Deserialize, PartialEq)]
+pub enum JobTier {
     Basic,
     Advanced,
     Expert,
 }
 
-enum JobType {
+impl fmt::Display for JobTier {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let tier_name = match self {
+            JobTier::Basic => "Basic",
+            JobTier::Advanced => "Advanced",
+            JobTier::Expert => "Expert",
+        };
+        
+        write!(f, "{}", tier_name)
+    }
+}
+
+#[derive(Debug, Deserialize)]
+pub enum JobType {
     Red,
     Orange,
     Green,
@@ -23,8 +37,8 @@ enum JobType {
 #[derive(Deserialize, Debug)]
 pub struct Job {
     pub name: String,
-    pub tier: String,
-    pub r#type: String,
+    pub tier: JobTier,
+    pub r#type: JobType,
     // pub weapons: Vec<String>,
     // pub classes
     #[serde(rename(deserialize = "affinityBonuses"))]

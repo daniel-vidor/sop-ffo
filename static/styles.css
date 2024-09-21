@@ -5,9 +5,11 @@ html {
     color: white;
 }
 
-h1, h2, h3 {
+h1, h2 {
     text-transform: uppercase;
-    text-shadow: black 0 0 2px;
+    text-shadow: 
+        #ff703b22 -0.8em -0.2em 0,
+        #ff2e17 0 0 0.125em;
 }
 
 h1, h2 {

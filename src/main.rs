@@ -41,10 +41,14 @@ async fn main() {
 async fn index() -> Html<String> {
     // Model
     let equipment_slot_names = model::get_equipment_slot_names();
-    let job_names = model::get_job_names();
+
+    let jobs = match file_utils::get_jobs() {
+        Ok(jobs) => jobs,
+        Err(error) => panic!("Problem getting job data: {error:?}"),
+    };
 
     // View
-    let markup = index_template(equipment_slot_names, job_names);
+    let markup = index_template(equipment_slot_names, &jobs);
 
     Html(markup.into())
 }
