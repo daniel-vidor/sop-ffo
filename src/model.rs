@@ -21,7 +21,7 @@ impl fmt::Display for JobTier {
             JobTier::Advanced => "Advanced",
             JobTier::Expert => "Expert",
         };
-        
+
         write!(f, "{}", tier_name)
     }
 }
@@ -56,7 +56,7 @@ pub struct AffinityBonuses {
 }
 
 impl AffinityBonuses {
-    pub fn get_affinity_bonuses(&self, affinity_strength: u32) -> Vec<AffinityBonus> {
+    pub fn get_active_affinity_bonuses(&self, affinity_strength: u32) -> Vec<AffinityBonus> {
         let mut result = vec![];
 
         if affinity_strength >= 250 {
@@ -117,7 +117,7 @@ pub fn get_active_affinity_bonuses(
 
         let active_affinity_bonuses = job
             .affinity_bonuses
-            .get_affinity_bonuses(job_affinity_strength)
+            .get_active_affinity_bonuses(job_affinity_strength)
             .clone();
         active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);
     }
@@ -209,6 +209,11 @@ fn map_formdata_to_equipment_affinities(form_data: &FormData) -> Vec<EquipmentAf
             vec![form_data.feet_job1.clone(), form_data.feet_job2.clone()],
             form_data.feet_strength,
         ),
+        // (
+        //     "accessory",
+        //     form_data.accessory_job.clone(),
+        //     400,
+        // )
     ];
 
     equipment_data

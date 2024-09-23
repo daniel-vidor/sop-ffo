@@ -1,29 +1,66 @@
 html {
-    font-family: sans-serif;
-    font-weight: lighter;
-    background-color: #00142e;
+    height: 100%;
+    background: linear-gradient(145deg, #1d1f27 0%, #3a3f51 100%);
+}
+
+body {    
+    font-family: 'Roboto', sans-serif;
     color: white;
+    margin: 32px auto;
+    max-width: 960px;
+}
+
+h1, h2, h3 {
+    font-weight: 400;
 }
 
 h1, h2 {
     text-transform: uppercase;
-    text-shadow: 
-        #ff703b22 -0.8em -0.2em 0,
-        #ff2e17 0 0 0.125em;
+    text-indent: 8px;
+    margin-top: 0;
 }
 
-h1, h2 {
-    color: #ff703b;
+h1 {
+    color: rgb(175, 238, 238);
+        text-shadow: 
+        rgba(175, 238, 238, 0.1) -0.4em -0.2em 0,
+        rgb(140, 200, 238) 0 0 0.125em;
+}
+
+h2 {
+    color: rgb(255, 120, 60);
+    text-shadow: 
+        rgba(255, 120, 60, 0.1) -0.4em -0.2em 0,
+        rgb(255, 46, 23) 0 0 0.125em;
+    border-bottom: 1px solid rgba(255, 120, 60, 0.4);
 }
 
 h3 {
-    color: paleturquoise;
+    color: rgb(175, 238, 238);
+    border-bottom: 1px solid rgba(175, 238, 238, 0.4);
 }
 
-select {
-    margin: 2px 4px;
+.panel {
+    background-color: rgba(45, 50, 60, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 8px;
+    padding: 16px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
-div {
-    background-color: #ffffff11;
+.panel-contents {
+    margin: 0 16px;
+}
+
+.job-form {
+    display: grid;
+    grid-template-columns: 80px 120px 60px 20px;
+    column-gap: 8px;
+}
+
+.equipment-form {
+    display: grid;
+    grid-template-columns: 80px repeat(2, 120px) 60px 20px;
+    column-gap: 8px;
+    row-gap: 6px;
 }

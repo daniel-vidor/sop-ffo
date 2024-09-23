@@ -9,7 +9,8 @@ pub fn head_template() -> Markup {
         head {
             title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
             link rel="icon" href="/static/favicon.png" {}
-            link rel="stylesheet" href="/static/styles.css";
+            link rel="stylesheet" href="/static/styles.css" {}
+            link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet" {}
             script src="https://unpkg.com/htmx.org@1.9.2" {}
         }
     }
@@ -21,19 +22,30 @@ pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup
         html {
             (head_template())
             body {
-                h1 { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
+                h2 { "Stranger of Paradise: Final Fantasy Origin" }
+                h1 { "Build simulator" }
 
                 form hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
-                    h2 { "Job" }
-                    (active_job_template(&jobs))
+                    div class="panel" {
+                        h2 { "Job" }
+                        div class="panel-contents job-form" {
+                            (active_job_template(&jobs))
+                        }
+                    }
 
-                    h2 { "Equipment" }
-                    (equipment_form_template(equipment_slot_names, &jobs))
+                    div class="panel" {
+                        h2 { "Equipment" }
+                        div class="panel-contents equipment-form" {
+                            (equipment_form_template(equipment_slot_names, &jobs))
+                        }
+                    }
                 }
 
-                h2 { "Job Affinity Bonus" }
-                div id="result" {
-                    p { "Please select an option to see the result." }
+                div class="panel" {
+                    h2 { "Job Affinity Bonus" }
+                    div class="panel-contents" id="result" {
+                        p { "Please select an option to see the result." }
+                    }
                 }
             }
         }
@@ -42,6 +54,7 @@ pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup
 
 pub fn active_job_template(jobs: &[Job]) -> Markup {
     html! {
+        label for="active_job" {"Active job"}
         select name="active_job" {
             (get_job_options(jobs))
         }
@@ -53,17 +66,16 @@ pub fn active_job_template(jobs: &[Job]) -> Markup {
 pub fn equipment_form_template(slot_names: Vec<String>, jobs: &[Job]) -> Markup {
     html! {
         @for slot_name in slot_names {
-            div {
-                label for=(slot_name) {(capitalise_first_letter(&slot_name))}
-                select name=(format!("{slot_name}_job1")) {
+            label for=(slot_name) {(capitalise_first_letter(&slot_name))}
+
+            @for n in 1..3 {
+                select name=(format!("{slot_name}_job{n}")) {
                     (get_job_options(jobs))
                 }
-                select name=(format!("{slot_name}_job2")) {
-                    (get_job_options(jobs))
-                }
-                input name=(format!("{slot_name}_strength"))
-                    type="number" min="0" max="999" value="250" {} "%"
             }
+
+            input name=(format!("{slot_name}_strength"))
+                type="number" min="0" max="999" value="250" {} "%"
         }
     }
 }
