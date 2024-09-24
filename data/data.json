@@ -127,7 +127,7 @@
             },
             "600": {
                 "name": "Memories of a Paternal Calamity",
-                "description": "Reduces the MP cost of axe combo abilities while a axe is equipped."
+                "description": "Reduces the MP cost of axe combo abilities while an axe is equipped."
             }
         }
     },
@@ -299,11 +299,11 @@
                 "description": "Automatically grants the effects of protect and shell when near death."
             },
             "400": {
-                "name": "Inner Instinct ",
+                "name": "Inner Instinct",
                 "description": "Gradually restores MP while lightbringer is active."
             },
             "600": {
-                "name": "Memories of a Fallen Knight ",
+                "name": "Memories of a Fallen Knight",
                 "description": "Activates the effects of lightbringer when you soul burst an enemy."
             }
         }

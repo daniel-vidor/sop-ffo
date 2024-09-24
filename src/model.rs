@@ -220,7 +220,10 @@ fn map_formdata_to_equipment_affinities(form_data: &FormData) -> Vec<EquipmentAf
         .into_iter()
         .map(|(slot, job_names, strength)| EquipmentAffinity {
             slot: slot.to_string(),
-            job_names,
+            job_names: job_names
+                .into_iter()
+                .filter(|name| name != "(None)") // TODO: Map to None
+                .collect(),
             strength,
         })
         .collect()

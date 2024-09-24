@@ -10,7 +10,7 @@ pub fn head_template() -> Markup {
             title { "Stranger of Paradise: Final Fantasy Origin | Build simulator" }
             link rel="icon" href="/static/favicon.png" {}
             link rel="stylesheet" href="/static/styles.css" {}
-            link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet" {}
+            link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" {}
             script src="https://unpkg.com/htmx.org@1.9.2" {}
         }
     }
@@ -84,6 +84,7 @@ fn get_job_options(jobs: &[Job]) -> Markup {
     let job_tiers = vec![JobTier::Basic, JobTier::Advanced, JobTier::Expert];
 
     html! {
+        option { "(None)" }
         @for job_tier in job_tiers {
             // A disabled option is to create a "header" of sorts in the dropdown
             option disabled { (job_tier.to_string()) }
@@ -101,6 +102,8 @@ pub fn active_job_affinities_template(
 ) -> Markup {
     let mut job_names: Vec<&String> = job_affinity_sums.keys().collect();
     job_names.sort();
+
+    // let no_active_bonuses_text =
 
     html! {
         @for job_name in job_names {

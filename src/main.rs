@@ -80,6 +80,7 @@ struct FormData {
     feet_job1: String,
     feet_job2: String,
     feet_strength: u32,
+    // accessory_job: String,
 }
 
 /**
