@@ -53,8 +53,7 @@ async fn index() -> Html<String> {
     Html(markup.into())
 }
 
-// This is absolutely dreadful... I wish I could get arrays working in POST form data
-// TODO: Consider writing a macro to generate this struct
+// TODO: Get arrays working in POST form data, or write a macro to generate this struct
 #[derive(Deserialize, Debug)]
 struct FormData {
     active_job: String,

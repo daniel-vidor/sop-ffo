@@ -44,7 +44,7 @@ pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup
                 div class="panel" {
                     h2 { "Job Affinity Bonus" }
                     div class="panel-contents" id="result" {
-                        p { "Please select an option to see the result." }
+                        p { "No job affinity bonuses are active." }
                     }
                 }
             }
@@ -103,7 +103,7 @@ pub fn active_job_affinities_template(
     let mut job_names: Vec<&String> = job_affinity_sums.keys().collect();
     job_names.sort();
 
-    // let no_active_bonuses_text =
+    // let no_active_bonuses_text = "No job affinity bonuses are active.";
 
     html! {
         @for job_name in job_names {
