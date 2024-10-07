@@ -137,11 +137,13 @@ pub fn get_job_affinity_sums_from_form_data(form_data: &FormData) -> HashMap<Str
     }
 
     // Active job
-    accumulate_or_insert_into_hashmap(
-        &mut job_affinity_sums,
-        form_data.active_job.clone(),
-        form_data.active_job_strength,
-    );
+    if form_data.active_job != "(None)" {
+        accumulate_or_insert_into_hashmap(
+            &mut job_affinity_sums,
+            form_data.active_job.clone(),
+            form_data.active_job_strength,
+        );
+    }
 
     job_affinity_sums
 }

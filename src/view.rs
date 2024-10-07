@@ -103,15 +103,22 @@ pub fn active_job_affinities_template(
     let mut job_names: Vec<&String> = job_affinity_sums.keys().collect();
     job_names.sort();
 
-    // let no_active_bonuses_text = "No job affinity bonuses are active.";
+    let no_active_bonuses_text = "No job affinity bonuses are active.";
+    let empty_vec = vec![];
 
     html! {
         @for job_name in job_names {
             h3 {
                 (job_name) ": " (job_affinity_sums.get(job_name).unwrap_or(&0)) "%"
             }
-            @for affinity_bonus in active_affinity_bonuses_for_jobs.get(job_name).unwrap_or(&vec![]) {
-                p { b { (affinity_bonus.name) } ": " (affinity_bonus.description)}
+
+            @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_name).unwrap_or(&empty_vec);
+            @if active_affinity_bonuses_for_job.is_empty() {
+                p {(no_active_bonuses_text)}
+            } else {
+                @for affinity_bonus in active_affinity_bonuses_for_job {
+                    p { b { (affinity_bonus.name) } ": " (affinity_bonus.description)}
+                }
             }
         }
     }
