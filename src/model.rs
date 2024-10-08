@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use std::collections::BTreeMap;
 use std::hash::Hash;
 use std::{collections::HashMap, fmt};
 
@@ -56,17 +57,21 @@ pub struct AffinityBonuses {
 }
 
 impl AffinityBonuses {
-    pub fn get_active_affinity_bonuses(&self, affinity_strength: u32) -> Vec<AffinityBonus> {
-        let mut result = vec![];
+    /// Returns a BTreeMap (i.e. a map sorted by its keys)
+    pub fn get_active_affinity_bonuses(
+        &self,
+        affinity_strength: u32,
+    ) -> BTreeMap<u32, AffinityBonus> {
+        let mut result: BTreeMap<u32, AffinityBonus> = BTreeMap::new();
 
         if affinity_strength >= 250 {
-            result.push(self._250.clone());
+            result.insert(250, self._250.clone());
         }
         if affinity_strength >= 400 {
-            result.push(self._400.clone());
+            result.insert(400, self._400.clone());
         }
         if affinity_strength >= 600 {
-            result.push(self._600.clone());
+            result.insert(600, self._600.clone());
         }
 
         result
@@ -100,14 +105,15 @@ impl EquipmentAffinity {
 
 pub fn get_active_affinity_bonuses(
     job_affinity_sums: HashMap<String, u32>,
-) -> HashMap<String, Vec<AffinityBonus>> {
+) -> HashMap<String, BTreeMap<u32, AffinityBonus>> {
     // TODO: Cache and don't panic on failure
     let jobs_data = match get_jobs() {
         Ok(data) => data,
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
 
-    let mut active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>> = HashMap::new();
+    let mut active_affinity_bonuses_for_jobs: HashMap<String, BTreeMap<u32, AffinityBonus>> =
+        HashMap::new();
 
     for job in jobs_data {
         let job_affinity_strength = *job_affinity_sums.get(&job.name).unwrap_or(&0);
@@ -119,6 +125,7 @@ pub fn get_active_affinity_bonuses(
             .affinity_bonuses
             .get_active_affinity_bonuses(job_affinity_strength)
             .clone();
+
         active_affinity_bonuses_for_jobs.insert(job.name, active_affinity_bonuses);
     }
 
@@ -129,14 +136,15 @@ pub fn get_job_affinity_sums_from_form_data(form_data: &FormData) -> HashMap<Str
     let mut job_affinity_sums: HashMap<String, u32> = HashMap::new();
 
     // Equipment
-    let equipment_affinities = map_formdata_to_equipment_affinities(&form_data);
-    for equipment in equipment_affinities {
-        for (job, strength) in equipment.get_affinity_strengths() {
-            accumulate_or_insert_into_hashmap(&mut job_affinity_sums, job, strength);
-        }
-    }
+    map_formdata_to_equipment_affinities(form_data)
+        .iter()
+        .flat_map(|equipment| equipment.get_affinity_strengths())
+        .for_each(|(job, strength)| {
+            accumulate_or_insert_into_hashmap(&mut job_affinity_sums, job, strength)
+        });
 
     // Active job
+    // TODO: Extract "(None)" to a constant
     if form_data.active_job != "(None)" {
         accumulate_or_insert_into_hashmap(
             &mut job_affinity_sums,

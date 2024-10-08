@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 use maud::{html, Markup, DOCTYPE};
 
@@ -98,26 +98,43 @@ fn get_job_options(jobs: &[Job]) -> Markup {
 
 pub fn active_job_affinities_template(
     job_affinity_sums: HashMap<String, u32>,
-    active_affinity_bonuses_for_jobs: HashMap<String, Vec<AffinityBonus>>,
+    active_affinity_bonuses_for_jobs: HashMap<String, BTreeMap<u32, AffinityBonus>>,
 ) -> Markup {
     let mut job_names: Vec<&String> = job_affinity_sums.keys().collect();
     job_names.sort();
 
+    let mut job_affinities: Vec<(&String, &u32)> = job_affinity_sums.iter().collect();
+    job_affinities.sort_by(|a, b| b.1.cmp(a.1));
+
     let no_active_bonuses_text = "No job affinity bonuses are active.";
-    let empty_vec = vec![];
+    let empty_map: BTreeMap<u32, AffinityBonus> = BTreeMap::new();
 
     html! {
-        @for job_name in job_names {
+        @for job_affinity_pair in job_affinities {
             h3 {
-                (job_name) ": " (job_affinity_sums.get(job_name).unwrap_or(&0)) "%"
+                (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
             }
 
-            @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_name).unwrap_or(&empty_vec);
+            @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_affinity_pair.0).unwrap_or(&empty_map);
             @if active_affinity_bonuses_for_job.is_empty() {
                 p {(no_active_bonuses_text)}
-            } else {
-                @for affinity_bonus in active_affinity_bonuses_for_job {
-                    p { b { (affinity_bonus.name) } ": " (affinity_bonus.description)}
+            } @else {
+                @for active_affinity_bonus in active_affinity_bonuses_for_job {
+                    div class="active_affinity_bonus" {
+                        div {
+                            span class="active_affinity_bonus__strength" {
+                                (active_affinity_bonus.0) "%"
+                            }
+                            span class="active_affinity_bonus__name" {
+                                (active_affinity_bonus.1.name)
+                            }
+                        }
+                        div {
+                            span class="active_affinity_bonus__description" {
+                                (active_affinity_bonus.1.description)
+                            }
+                        }
+                    }
                 }
             }
         }
