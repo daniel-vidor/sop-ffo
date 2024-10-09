@@ -112,7 +112,8 @@ pub fn active_job_affinities_template(
     html! {
         @for job_affinity_pair in job_affinities {
             h3 {
-                (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
+                (job_affinity_pair.0)
+                // (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
             }
 
             @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_affinity_pair.0).unwrap_or(&empty_map);
@@ -129,8 +130,8 @@ pub fn active_job_affinities_template(
                                 (active_affinity_bonus.1.name)
                             }
                         }
-                        div {
-                            span class="active_affinity_bonus__description" {
+                        div class="active_affinity_bonus__description" {
+                            span  {
                                 (active_affinity_bonus.1.description)
                             }
                         }
