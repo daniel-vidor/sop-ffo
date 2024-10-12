@@ -25,7 +25,9 @@ pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup
                 h2 { "Stranger of Paradise: Final Fantasy Origin" }
                 h1 { "Build simulator" }
 
-                form hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
+                button hx-post="/test-load" hx-target="#result" { "Load sample build" }
+
+                form id="form" hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
                     div class="panel" {
                         h2 { "Job" }
                         div class="panel-contents job-form" {
@@ -111,28 +113,30 @@ pub fn active_job_affinities_template(
 
     html! {
         @for job_affinity_pair in job_affinities {
-            h3 {
-                (job_affinity_pair.0)
-                // (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
-            }
+            div {
+                h3 {
+                    (job_affinity_pair.0)
+                    // (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
+                }
 
-            @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_affinity_pair.0).unwrap_or(&empty_map);
-            @if active_affinity_bonuses_for_job.is_empty() {
-                p {(no_active_bonuses_text)}
-            } @else {
-                @for active_affinity_bonus in active_affinity_bonuses_for_job {
-                    div class="active_affinity_bonus" {
-                        div {
-                            span class="active_affinity_bonus__strength" {
-                                (active_affinity_bonus.0) "%"
+                @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_affinity_pair.0).unwrap_or(&empty_map);
+                @if active_affinity_bonuses_for_job.is_empty() {
+                    p {(no_active_bonuses_text)}
+                } @else {
+                    @for active_affinity_bonus in active_affinity_bonuses_for_job {
+                        div class="active_affinity_bonus" {
+                            div {
+                                span class="active_affinity_bonus__strength" {
+                                    (active_affinity_bonus.0) "%"
+                                }
+                                span class="active_affinity_bonus__name" {
+                                    (active_affinity_bonus.1.name)
+                                }
                             }
-                            span class="active_affinity_bonus__name" {
-                                (active_affinity_bonus.1.name)
-                            }
-                        }
-                        div class="active_affinity_bonus__description" {
-                            span  {
-                                (active_affinity_bonus.1.description)
+                            div class="active_affinity_bonus__description" {
+                                span  {
+                                    (active_affinity_bonus.1.description)
+                                }
                             }
                         }
                     }
