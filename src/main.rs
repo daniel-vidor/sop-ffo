@@ -83,11 +83,11 @@ struct FormData {
     // accessory_job: String,
 }
 
-fn serialize_formdata_to_string(form_data: &FormData) -> String {
+fn serialize_form_data_to_string(form_data: &FormData) -> String {
     serde_json::to_string(form_data).unwrap()
 }
 
-fn deserialize_string_to_formdata(string: &str) -> FormData {
+fn deserialize_string_to_form_data(string: &str) -> FormData {
     serde_json::from_str(string).unwrap()
 }
 
@@ -103,10 +103,10 @@ async fn update(Form(form_data): Form<FormData>) -> Html<String> {
     let result =
         active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs);
 
-    let ser = serialize_formdata_to_string(&form_data);
+    let ser = serialize_form_data_to_string(&form_data);
     println!("Serialised: {}", ser);
 
-    let deser = deserialize_string_to_formdata(&ser);
+    let deser = deserialize_string_to_form_data(&ser);
     println!("Deserialised: {:?}", deser);
 
     Html(result.into())
@@ -114,6 +114,6 @@ async fn update(Form(form_data): Form<FormData>) -> Html<String> {
 
 async fn test_load() -> Html<String> {
     let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
-    let deser = deserialize_string_to_formdata(&dummy_data);
+    let deser = deserialize_string_to_form_data(&dummy_data);
     update(Form(deser)).await
 }
