@@ -37,7 +37,7 @@ pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup
 
                     div class="panel" {
                         h2 { "Equipment" }
-                        div class="panel-contents equipment-form" {
+                        div class="panel-contents " {
                             (equipment_form_template(equipment_slot_names, &jobs))
                         }
                     }
@@ -67,17 +67,31 @@ pub fn active_job_template(jobs: &[Job]) -> Markup {
 
 pub fn equipment_form_template(slot_names: Vec<String>, jobs: &[Job]) -> Markup {
     html! {
-        @for slot_name in slot_names {
-            label for=(slot_name) {(capitalise_first_letter(&slot_name))}
-
-            @for n in 1..3 {
-                select name=(format!("{slot_name}_job{n}")) {
-                    (get_job_options(jobs))
-                }
+        div class="weapon-type-form" {
+            label { "Weapon Type" }
+            div {
+                input type="radio" name="weapon-type" value="1H" checked {}
+                label { "One-handed" }
             }
+            div {
+                input type="radio" name="weapon-type" value="2H" {}
+                label { "Two-handed" }
+            }
+        }
 
-            input name=(format!("{slot_name}_strength"))
-                type="number" min="0" max="999" value="250" {} "%"
+        div class="equipment-form" {
+            @for slot_name in slot_names {
+                label for=(slot_name) {(capitalise_first_letter(&slot_name))}
+
+                @for n in 1..3 {
+                    select name=(format!("{slot_name}_job{n}")) {
+                        (get_job_options(jobs))
+                    }
+                }
+
+                input name=(format!("{slot_name}_strength"))
+                    type="number" min="0" max="999" value="250" {} "%"
+            }
         }
     }
 }

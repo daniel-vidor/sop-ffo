@@ -55,12 +55,22 @@ h3 {
 
 .panel-contents {
     margin: 0 16px;
+
+    display: flex;
+	flex-direction: column;
+	gap: 12px;
 }
 
 .job-form {
     display: grid;
     grid-template-columns: 80px 120px 60px 20px;
     column-gap: 8px;
+}
+
+.weapon-type-form {
+    display: flex;
+	flex-direction: row;
+	gap: 12px;
 }
 
 .equipment-form {
@@ -73,7 +83,7 @@ h3 {
 .active_affinity_bonus {
 	padding: 8px;
 	border: 1px solid rgba(175, 238, 238, 1);
-	border-image: linear-gradient(to bottom, transparent 80%, rgba(175, 238, 238, 0.2)) 1;
+	border-image: linear-gradient(to bottom, transparent 85%, rgba(175, 238, 238, 0.2)) 1;
 }
 
 .active_affinity_bonus__strength {
