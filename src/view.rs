@@ -16,7 +16,11 @@ pub fn head_template() -> Markup {
     }
 }
 
-pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup {
+pub fn index_template(
+    equipment_slot_names: Vec<String>,
+    jobs: &[Job],
+    is_two_handed: bool,
+) -> Markup {
     html! {
         (DOCTYPE)
         html {
@@ -37,8 +41,8 @@ pub fn index_template(equipment_slot_names: Vec<String>, jobs: &[Job]) -> Markup
 
                     div class="panel" {
                         h2 { "Equipment" }
-                        div class="panel-contents " {
-                            (equipment_form_template(equipment_slot_names, &jobs))
+                        div class="panel-contents" {
+                            (equipment_form_template(equipment_slot_names, &jobs, is_two_handed))
                         }
                     }
                 }
@@ -65,28 +69,40 @@ pub fn active_job_template(jobs: &[Job]) -> Markup {
     }
 }
 
-pub fn equipment_form_template(slot_names: Vec<String>, jobs: &[Job]) -> Markup {
+pub fn equipment_form_template(
+    slot_names: Vec<String>,
+    jobs: &[Job],
+    is_two_handed: bool,
+) -> Markup {
     html! {
         div class="weapon-type-form" {
             label { "Weapon Type" }
             div {
-                input type="radio" name="weapon-type" value="1H" checked {}
+                input type="radio" name="weapon-type" value="1H"
+                    hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form" checked {}
                 label { "One-handed" }
             }
             div {
-                input type="radio" name="weapon-type" value="2H" {}
+                input type="radio" name="weapon-type" value="2H"
+                    hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form" {}
                 label { "Two-handed" }
             }
         }
 
-        div class="equipment-form" {
+        div id="equipment-form" class="equipment-form" {
             @for slot_name in slot_names {
                 label for=(slot_name) {(capitalise_first_letter(&slot_name))}
 
+                @let is_slot_disabled = slot_name == "shield" && is_two_handed;
+
                 @for n in 1..3 {
-                    select name=(format!("{slot_name}_job{n}")) {
-                        (get_job_options(jobs))
-                    }
+                    // @if is_slot_disabled {
+                    //     select {}
+                    // } else {
+                        select name=(format!("{slot_name}_job{n}"))  {
+                            (get_job_options(jobs))
+                        }
+                    // }
                 }
 
                 input name=(format!("{slot_name}_strength"))
@@ -95,6 +111,10 @@ pub fn equipment_form_template(slot_names: Vec<String>, jobs: &[Job]) -> Markup 
         }
     }
 }
+
+// fn get_equipment_form(slot_names: Vec<String>, jobs: &[Job]) -> Markup {
+
+// }
 
 fn get_job_options(jobs: &[Job]) -> Markup {
     let job_tiers = vec![JobTier::Basic, JobTier::Advanced, JobTier::Expert];

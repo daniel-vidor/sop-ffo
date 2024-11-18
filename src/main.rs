@@ -9,7 +9,7 @@ use axum::{
 use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use serde::{Deserialize, Serialize};
 use tower_http::services::ServeDir;
-use view::{active_job_affinities_template, index_template};
+use view::{active_job_affinities_template, equipment_form_template, index_template};
 
 mod file_utils;
 mod items;
@@ -30,6 +30,7 @@ async fn main() {
     let app = Router::new()
         .route("/", get(index))
         .route("/update", post(update))
+        .route("/update-equipment-form", post(update_equipment_form))
         .route("/test-load", post(test_load))
         .nest_service("/static", static_files_service);
 
@@ -48,8 +49,10 @@ async fn index() -> Html<String> {
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
 
+    let is_two_handed = true;
+
     // View
-    let markup = index_template(equipment_slot_names, &jobs);
+    let markup = index_template(equipment_slot_names, &jobs, is_two_handed);
 
     Html(markup.into())
 }
@@ -59,6 +62,7 @@ async fn index() -> Html<String> {
 struct FormData {
     active_job: String,
     active_job_strength: u32,
+    weapon_type: String,
     weapon_job1: String,
     weapon_job2: String,
     weapon_strength: u32,
@@ -116,4 +120,18 @@ async fn test_load() -> Html<String> {
     let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
     let deser = deserialize_string_to_form_data(&dummy_data);
     update(Form(deser)).await
+}
+
+async fn update_equipment_form(form_data: axum::Form<FormData>) -> Html<String> {
+    let is_two_handed = form_data.weapon_type == "2H";
+
+    let equipment_slot_names = model::get_equipment_slot_names();
+
+    let jobs = match file_utils::get_jobs() {
+        Ok(jobs) => jobs,
+        Err(error) => panic!("Problem getting job data: {error:?}"),
+    };
+
+    let result = equipment_form_template(equipment_slot_names, &jobs, is_two_handed);
+    Html(result.into())
 }
