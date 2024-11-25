@@ -29,7 +29,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index))
-        .route("/update", post(update))
+        .route("/update", post(update_result_section))
         .route("/update-equipment-form", post(update_equipment_form))
         .route("/test-load", post(test_load))
         .nest_service("/static", static_files_service);
@@ -98,7 +98,7 @@ fn deserialize_string_to_form_data(string: &str) -> FormData {
 /**
  * Updates the Result section with the currently active job affinity bonuses.
  */
-async fn update(Form(form_data): Form<FormData>) -> Html<String> {
+async fn update_result_section(Form(form_data): Form<FormData>) -> Html<String> {
     // Model
     let job_affinity_sums = get_job_affinity_sums_from_form_data(&form_data);
     let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
@@ -108,22 +108,24 @@ async fn update(Form(form_data): Form<FormData>) -> Html<String> {
         active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs);
 
     let ser = serialize_form_data_to_string(&form_data);
-    println!("Serialised: {}", ser);
+    //println!("Serialised: {}", ser);
 
     let deser = deserialize_string_to_form_data(&ser);
-    println!("Deserialised: {:?}", deser);
+    //println!("Deserialised: {:?}", deser);
 
+    // println!("update: {:?}", result);
     Html(result.into())
 }
 
 async fn test_load() -> Html<String> {
     let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
     let deser = deserialize_string_to_form_data(&dummy_data);
-    update(Form(deser)).await
+    update_result_section(Form(deser)).await
 }
 
 async fn update_equipment_form(form_data: axum::Form<FormData>) -> Html<String> {
     let is_two_handed = form_data.weapon_type == "2H";
+    println!("is_two_handed: {is_two_handed}");
 
     let equipment_slot_names = model::get_equipment_slot_names();
 
@@ -133,5 +135,6 @@ async fn update_equipment_form(form_data: axum::Form<FormData>) -> Html<String> 
     };
 
     let result = equipment_form_template(equipment_slot_names, &jobs, is_two_handed);
+    //println!("update_equipment_form: {:?}", result);
     Html(result.into())
 }

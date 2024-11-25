@@ -41,7 +41,7 @@ pub fn index_template(
 
                     div class="panel" {
                         h2 { "Equipment" }
-                        div class="panel-contents" {
+                        div id="equipment-panel" class="panel-contents" {
                             (equipment_form_template(equipment_slot_names, &jobs, is_two_handed))
                         }
                     }
@@ -65,7 +65,7 @@ pub fn active_job_template(jobs: &[Job]) -> Markup {
             (get_job_options(jobs))
         }
         input name="active_job_strength"
-            type="number" min="0" max="999" value="50" {} "%"
+            type="number" min="0" max="999" value="800" {} "%"
     }
 }
 
@@ -78,31 +78,36 @@ pub fn equipment_form_template(
         div class="weapon-type-form" {
             label { "Weapon Type" }
             div {
-                input type="radio" name="weapon-type" value="1H"
-                    hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form" checked {}
+                input type="radio" name="weapon_type" value="1H"
+                /*hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form"*/
+                checked {}
                 label { "One-handed" }
             }
             div {
-                input type="radio" name="weapon-type" value="2H"
-                    hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form" {}
+                input type="radio" name="weapon_type" value="2H"
+                /*hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form"*/
+                {}
                 label { "Two-handed" }
             }
         }
 
         div id="equipment-form" class="equipment-form" {
             @for slot_name in slot_names {
-                label for=(slot_name) {(capitalise_first_letter(&slot_name))}
-
                 @let is_slot_disabled = slot_name == "shield" && is_two_handed;
 
+                // label for=(slot_name) {(capitalise_first_letter(&slot_name) + &is_slot_disabled.to_string())}
+                label for=(slot_name) {(capitalise_first_letter(&slot_name))}
+
                 @for n in 1..3 {
-                    // @if is_slot_disabled {
-                    //     select {}
-                    // } else {
+                    @if is_slot_disabled {
+                        select name=(format!("{slot_name}_job{n}")) /*disabled*/ {
+                            (get_job_options(jobs))
+                        }
+                    } @else {
                         select name=(format!("{slot_name}_job{n}"))  {
                             (get_job_options(jobs))
                         }
-                    // }
+                    }
                 }
 
                 input name=(format!("{slot_name}_strength"))
