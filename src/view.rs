@@ -34,8 +34,21 @@ pub fn index_template(
                 form id="form" hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
                     div class="panel" {
                         h2 { "Job" }
-                        div class="panel-contents job-form" {
-                            (active_job_template(&jobs))
+                        div class="panel-contents" {
+                            div class="job-form" {
+                                (active_job_template(&jobs))
+                            }
+                            div class="weapon-type-form" {
+                                label {"Class (WIP)"}
+                                div {
+                                    input type="radio" name="job-class" value="evocation" checked {}
+                                    label { "Evocation" }
+                                }
+                                div {
+                                    input type="radio" name="job-class" value="ultima" {}
+                                    label { "Ultima" }
+                                }
+                            }
                         }
                     }
 
@@ -88,6 +101,22 @@ pub fn equipment_form_template(
                 /*hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form"*/
                 {}
                 label { "Two-handed" }
+            }
+        }
+
+        div class="weapon-type-form" {
+            label { "Chest Type (WIP)" }
+            div {
+                input type="radio" name="chest_type" value="chest-only" checked {}
+                label { "Chest" }
+            }
+            div {
+                input type="radio" name="chest_type" value="chest-head" {}
+                label { "Chest + Head" }
+            }
+            div {
+                input type="radio" name="chest_type" value="chest-legs" {}
+                label { "Chest + Legs" }
             }
         }
 
@@ -151,30 +180,35 @@ pub fn active_job_affinities_template(
     let empty_map: BTreeMap<u32, AffinityBonus> = BTreeMap::new();
 
     html! {
-        @for job_affinity_pair in job_affinities {
-            div {
-                h3 {
-                    (job_affinity_pair.0)
-                    // (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
-                }
+        @if job_affinities.is_empty() {
+            p { (no_active_bonuses_text) }
+        }
+        @else {
+            @for job_affinity_pair in job_affinities {
+                div {
+                    h3 {
+                        (job_affinity_pair.0)
+                        // (job_affinity_pair.0) ": " (job_affinity_sums.get(job_affinity_pair.0).unwrap_or(&0)) "%"
+                    }
 
-                @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_affinity_pair.0).unwrap_or(&empty_map);
-                @if active_affinity_bonuses_for_job.is_empty() {
-                    p {(no_active_bonuses_text)}
-                } @else {
-                    @for active_affinity_bonus in active_affinity_bonuses_for_job {
-                        div class="active_affinity_bonus" {
-                            div {
-                                span class="active_affinity_bonus__strength" {
-                                    (active_affinity_bonus.0) "%"
+                    @let active_affinity_bonuses_for_job = active_affinity_bonuses_for_jobs.get(job_affinity_pair.0).unwrap_or(&empty_map);
+                    @if active_affinity_bonuses_for_job.is_empty() {
+                        p {(no_active_bonuses_text)}
+                    } @else {
+                        @for active_affinity_bonus in active_affinity_bonuses_for_job {
+                            div class="active_affinity_bonus" {
+                                div {
+                                    span class="active_affinity_bonus__strength" {
+                                        (active_affinity_bonus.0) "%"
+                                    }
+                                    span class="active_affinity_bonus__name" {
+                                        (active_affinity_bonus.1.name)
+                                    }
                                 }
-                                span class="active_affinity_bonus__name" {
-                                    (active_affinity_bonus.1.name)
-                                }
-                            }
-                            div class="active_affinity_bonus__description" {
-                                span  {
-                                    (active_affinity_bonus.1.description)
+                                div class="active_affinity_bonus__description" {
+                                    span  {
+                                        (active_affinity_bonus.1.description)
+                                    }
                                 }
                             }
                         }
