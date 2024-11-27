@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use axum::{
     extract::Form,
     http::StatusCode,
@@ -9,7 +11,7 @@ use axum::{
 use model::{get_active_affinity_bonuses, get_job_affinity_sums_from_form_data};
 use serde::{Deserialize, Serialize};
 use tower_http::services::ServeDir;
-use view::{active_job_affinities_template, equipment_form_template, index_template};
+use view::{index_template, page_content_template};
 
 mod file_utils;
 mod items;
@@ -29,8 +31,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index))
-        .route("/update", post(update_result_section))
-        .route("/update-equipment-form", post(update_equipment_form))
+        .route("/update", post(update_page_content))
         .route("/test-load", post(test_load))
         .nest_service("/static", static_files_service);
 
@@ -49,20 +50,27 @@ async fn index() -> Html<String> {
         Err(error) => panic!("Problem getting job data: {error:?}"),
     };
 
-    let is_two_handed = true;
+    let job_affinity_sums: HashMap<String, u32> = HashMap::new();
+    let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View
-    let markup = index_template(equipment_slot_names, &jobs, is_two_handed);
+    let markup = index_template(
+        equipment_slot_names,
+        &jobs,
+        job_affinity_sums,
+        active_affinity_bonuses_for_jobs,
+    );
 
     Html(markup.into())
 }
 
 // TODO: Get arrays working in POST form data, or write a macro to generate this struct
-#[derive(Deserialize, Debug, Serialize)]
+#[derive(Default, Deserialize, Debug, Serialize)]
 struct FormData {
     active_job: String,
     active_job_strength: u32,
     weapon_type: String,
+    chest_type: String,
     weapon_job1: String,
     weapon_job2: String,
     weapon_strength: u32,
@@ -87,6 +95,23 @@ struct FormData {
     // accessory_job: String,
 }
 
+impl FormData {
+    fn new() -> Self {
+        FormData {
+            weapon_type: "2H".to_string(),
+            chest_type: "chest-only".to_string(),
+            weapon_strength: 350,
+            shield_strength: 75,
+            head_strength: 250,
+            chest_strength: 250,
+            hands_strength: 250,
+            legs_strength: 250,
+            feet_strength: 250,
+            ..Default::default()
+        }
+    }
+}
+
 fn serialize_form_data_to_string(form_data: &FormData) -> String {
     serde_json::to_string(form_data).unwrap()
 }
@@ -98,19 +123,32 @@ fn deserialize_string_to_form_data(string: &str) -> FormData {
 /**
  * Updates the Result section with the currently active job affinity bonuses.
  */
-async fn update_result_section(Form(form_data): Form<FormData>) -> Html<String> {
+async fn update_page_content(Form(form_data): Form<FormData>) -> Html<String> {
     // Model
+    let equipment_slot_names = model::get_equipment_slot_names();
+    let jobs = match file_utils::get_jobs() {
+        Ok(jobs) => jobs,
+        Err(error) => panic!("Problem getting job data: {error:?}"),
+    };
     let job_affinity_sums = get_job_affinity_sums_from_form_data(&form_data);
     let active_affinity_bonuses_for_jobs = get_active_affinity_bonuses(job_affinity_sums.clone());
 
     // View
-    let result =
-        active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs);
+    // TODO: Pass in form data
+    let result = page_content_template(
+        equipment_slot_names,
+        &jobs,
+        job_affinity_sums,
+        active_affinity_bonuses_for_jobs,
+        &form_data,
+    );
 
-    let ser = serialize_form_data_to_string(&form_data);
+    // println!("form_data: {:?}", form_data);
+
+    // let ser = serialize_form_data_to_string(&form_data);
     //println!("Serialised: {}", ser);
 
-    let deser = deserialize_string_to_form_data(&ser);
+    // let deser = deserialize_string_to_form_data(&ser);
     //println!("Deserialised: {:?}", deser);
 
     // println!("update: {:?}", result);
@@ -120,21 +158,5 @@ async fn update_result_section(Form(form_data): Form<FormData>) -> Html<String> 
 async fn test_load() -> Html<String> {
     let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
     let deser = deserialize_string_to_form_data(&dummy_data);
-    update_result_section(Form(deser)).await
-}
-
-async fn update_equipment_form(form_data: axum::Form<FormData>) -> Html<String> {
-    let is_two_handed = form_data.weapon_type == "2H";
-    println!("is_two_handed: {is_two_handed}");
-
-    let equipment_slot_names = model::get_equipment_slot_names();
-
-    let jobs = match file_utils::get_jobs() {
-        Ok(jobs) => jobs,
-        Err(error) => panic!("Problem getting job data: {error:?}"),
-    };
-
-    let result = equipment_form_template(equipment_slot_names, &jobs, is_two_handed);
-    //println!("update_equipment_form: {:?}", result);
-    Html(result.into())
+    update_page_content(Form(deser)).await
 }

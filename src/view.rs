@@ -2,7 +2,10 @@ use std::collections::{BTreeMap, HashMap};
 
 use maud::{html, Markup, DOCTYPE};
 
-use crate::model::{AffinityBonus, Job, JobTier};
+use crate::{
+    model::{AffinityBonus, Job, JobTier},
+    FormData,
+};
 
 pub fn head_template() -> Markup {
     html! {
@@ -19,7 +22,8 @@ pub fn head_template() -> Markup {
 pub fn index_template(
     equipment_slot_names: Vec<String>,
     jobs: &[Job],
-    is_two_handed: bool,
+    job_affinity_sums: HashMap<String, u32>,
+    active_affinity_bonuses_for_jobs: HashMap<String, BTreeMap<u32, AffinityBonus>>,
 ) -> Markup {
     html! {
         (DOCTYPE)
@@ -31,126 +35,157 @@ pub fn index_template(
 
                 button hx-post="/test-load" hx-target="#result" { "Load sample build" }
 
-                form id="form" hx-post="/update" hx-trigger="change" hx-target="#result" enctype="json" {
-                    div class="panel" {
-                        h2 { "Job" }
-                        div class="panel-contents" {
-                            div class="job-form" {
-                                (active_job_template(&jobs))
-                            }
-                            div class="weapon-type-form" {
-                                label {"Class (WIP)"}
-                                div {
-                                    input type="radio" name="job-class" value="evocation" checked {}
-                                    label { "Evocation" }
-                                }
-                                div {
-                                    input type="radio" name="job-class" value="ultima" {}
-                                    label { "Ultima" }
-                                }
-                            }
-                        }
-                    }
-
-                    div class="panel" {
-                        h2 { "Equipment" }
-                        div id="equipment-panel" class="panel-contents" {
-                            (equipment_form_template(equipment_slot_names, &jobs, is_two_handed))
-                        }
-                    }
-                }
-
-                div class="panel" {
-                    h2 { "Job Affinity Bonus" }
-                    div class="panel-contents" id="result" {
-                        p { "No job affinity bonuses are active." }
-                    }
+                div id="page-content" {
+                    (page_content_template(equipment_slot_names, jobs, job_affinity_sums, active_affinity_bonuses_for_jobs, &FormData::new()))
                 }
             }
         }
     }
 }
 
-pub fn active_job_template(jobs: &[Job]) -> Markup {
+pub fn page_content_template(
+    equipment_slot_names: Vec<String>,
+    jobs: &[Job],
+    job_affinity_sums: HashMap<String, u32>,
+    active_affinity_bonuses_for_jobs: HashMap<String, BTreeMap<u32, AffinityBonus>>,
+    form_data: &FormData,
+) -> Markup {
+    html! {
+        form hx-post="/update" hx-trigger="change" hx-target="#page-content" enctype="json" {
+            div class="panel" {
+                h2 { "Job" }
+                div class="panel-contents" {
+                    div class="job-form" {
+                        (active_job_template(&jobs, form_data.active_job.clone()))
+                    }
+                    div class="weapon-type-form" {
+                        label {"Class (WIP)"}
+                        div {
+                            input type="radio" name="job-class" value="evocation" checked {}
+                            label { "Evocation" }
+                        }
+                        div {
+                            input type="radio" name="job-class" value="ultima" {}
+                            label { "Ultima" }
+                        }
+                    }
+                }
+            }
+
+            div class="panel" {
+                h2 { "Equipment" }
+                div id="equipment-panel" class="panel-contents" {
+                    (equipment_form_template(equipment_slot_names, &jobs, form_data))
+                }
+            }
+        }
+
+        div class="panel" {
+            h2 { "Job Affinity Bonus" }
+            div class="panel-contents" id="result" {
+                (active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs))
+            }
+        }
+    }
+}
+
+pub fn active_job_template(jobs: &[Job], active_job: String) -> Markup {
     html! {
         label for="active_job" {"Active job"}
         select name="active_job" {
-            (get_job_options(jobs))
+            (get_job_options(jobs, active_job))
         }
         input name="active_job_strength"
             type="number" min="0" max="999" value="800" {} "%"
     }
 }
 
+// To do: do not use FormData directly; map FormData to a better model
 pub fn equipment_form_template(
     slot_names: Vec<String>,
     jobs: &[Job],
-    is_two_handed: bool,
+    form_data: &FormData,
 ) -> Markup {
     html! {
         div class="weapon-type-form" {
             label { "Weapon Type" }
             div {
                 input type="radio" name="weapon_type" value="1H"
-                /*hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form"*/
-                checked {}
+                checked?[form_data.weapon_type == "1H"] {}
                 label { "One-handed" }
             }
             div {
                 input type="radio" name="weapon_type" value="2H"
-                /*hx-post="/update-equipment-form" hx-trigger="change" hx-target="#equipment-form"*/
-                {}
+                checked?[form_data.weapon_type == "2H"] {}
                 label { "Two-handed" }
             }
         }
 
         div class="weapon-type-form" {
-            label { "Chest Type (WIP)" }
-            div {
-                input type="radio" name="chest_type" value="chest-only" checked {}
-                label { "Chest" }
-            }
-            div {
-                input type="radio" name="chest_type" value="chest-head" {}
-                label { "Chest + Head" }
-            }
-            div {
-                input type="radio" name="chest_type" value="chest-legs" {}
-                label { "Chest + Legs" }
+            label { "Chest Type" }
+            @let value_names = ["chest-only", "chest-head", "chest-legs"];
+            @for value_name in value_names {
+                div {
+                    @let label_text = match value_name {
+                        "chest-only" => "Chest",
+                        "chest-head" => "Chest + Head",
+                        "chest-legs" => "Chest + Legs",
+                        _ => ""
+                    };
+                    input type="radio" name="chest_type" value=(value_name) checked?[form_data.chest_type == value_name] {}
+                    label { (label_text) }
+                }
             }
         }
 
         div id="equipment-form" class="equipment-form" {
             @for slot_name in slot_names {
-                @let is_slot_disabled = slot_name == "shield" && is_two_handed;
+                @let is_slot_disabled =
+                    slot_name == "shield" && form_data.weapon_type == "2H" ||
+                    slot_name == "head" && form_data.chest_type == "chest-head" ||
+                    slot_name == "legs" && form_data.chest_type == "chest-legs";
 
-                // label for=(slot_name) {(capitalise_first_letter(&slot_name) + &is_slot_disabled.to_string())}
+                @let selected_jobs_and_strength = match slot_name.as_str() {
+                    "weapon" => [form_data.weapon_job1.clone(), form_data.weapon_job2.clone(), form_data.weapon_strength.to_string()],
+                    "shield" => [form_data.shield_job1.clone(), form_data.shield_job2.clone(), form_data.shield_strength.to_string()],
+                    "head" => [form_data.head_job1.clone(), form_data.head_job2.clone(), form_data.head_strength.to_string()],
+                    "chest" => [form_data.chest_job1.clone(), form_data.chest_job2.clone(), form_data.chest_strength.to_string()],
+                    "hands" => [form_data.hands_job1.clone(), form_data.hands_job2.clone(), form_data.hands_strength.to_string()],
+                    "legs" => [form_data.legs_job1.clone(), form_data.legs_job2.clone(), form_data.legs_strength.to_string()],
+                    "feet" => [form_data.feet_job1.clone(), form_data.feet_job2.clone(), form_data.feet_strength.to_string()],
+                    _ => panic!(),
+                };
+
                 label for=(slot_name) {(capitalise_first_letter(&slot_name))}
 
                 @for n in 1..3 {
+                    @let slot_job_name = format!("{slot_name}_job{n}");
+                    select id=(slot_job_name) name=(slot_job_name) disabled?[is_slot_disabled] {
+                        (get_job_options(jobs, selected_jobs_and_strength[n - 1].clone()))
+                    }
+                    // If a form element is disabled, then its form_data is not sent in the HTML request.
+                    // This breaks the deserialisation into FormData, so create a hidden field to be used in its stead
+                    // https://stackoverflow.com/questions/7357256/disabled-form-inputs-do-not-appear-in-the-request
                     @if is_slot_disabled {
-                        select name=(format!("{slot_name}_job{n}")) /*disabled*/ {
-                            (get_job_options(jobs))
-                        }
-                    } @else {
-                        select name=(format!("{slot_name}_job{n}"))  {
-                            (get_job_options(jobs))
-                        }
+                        select name=(slot_job_name) hidden value="(None)" {}
                     }
                 }
 
-                input name=(format!("{slot_name}_strength"))
-                    type="number" min="0" max="999" value="250" {} "%"
+                @let slot_strength_name = format!("{slot_name}_strength");
+
+                input id=(slot_strength_name) name=(slot_strength_name) disabled?[is_slot_disabled]
+                    type="number" min="0" max="999" value=(selected_jobs_and_strength[2]) {} "%"
+
+                @if is_slot_disabled {
+                    input name=(slot_strength_name) hidden
+                        type="number" min="0" max="999" value=(0) {}
+                }
             }
         }
     }
 }
 
-// fn get_equipment_form(slot_names: Vec<String>, jobs: &[Job]) -> Markup {
-
-// }
-
-fn get_job_options(jobs: &[Job]) -> Markup {
+fn get_job_options(jobs: &[Job], selected_job: String) -> Markup {
     let job_tiers = vec![JobTier::Basic, JobTier::Advanced, JobTier::Expert];
 
     html! {
@@ -160,7 +195,7 @@ fn get_job_options(jobs: &[Job]) -> Markup {
             option disabled { (job_tier.to_string()) }
 
             @for job in jobs.iter().filter(|job| job.tier == job_tier) {
-                option value=(job.name) { (job.name) }
+                option value=(job.name) selected?[job.name == selected_job] { (job.name) }
             }
         }
     }
@@ -175,6 +210,7 @@ pub fn active_job_affinities_template(
 
     let mut job_affinities: Vec<(&String, &u32)> = job_affinity_sums.iter().collect();
     job_affinities.sort_by(|a, b| b.1.cmp(a.1));
+    println!("{:?}", job_affinities);
 
     let no_active_bonuses_text = "No job affinity bonuses are active.";
     let empty_map: BTreeMap<u32, AffinityBonus> = BTreeMap::new();

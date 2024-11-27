@@ -139,6 +139,7 @@ pub fn get_job_affinity_sums_from_form_data(form_data: &FormData) -> HashMap<Str
     map_formdata_to_equipment_affinities(form_data)
         .iter()
         .flat_map(|equipment| equipment.get_affinity_strengths())
+        .filter(|(job, _strength)| !job.is_empty())
         .for_each(|(job, strength)| {
             accumulate_or_insert_into_hashmap(&mut job_affinity_sums, job, strength)
         });
@@ -165,15 +166,15 @@ where
     *hashmap.entry(key).or_insert(0) += value;
 }
 
-pub fn get_job_names() -> Vec<String> {
-    let jobs = match file_utils::get_jobs() {
-        Ok(jobs) => jobs,
-        Err(error) => panic!("Problem getting job data: {error:?}"),
-    };
+// pub fn get_job_names() -> Vec<String> {
+//     let jobs = match file_utils::get_jobs() {
+//         Ok(jobs) => jobs,
+//         Err(error) => panic!("Problem getting job data: {error:?}"),
+//     };
 
-    let job_names = jobs.iter().map(|job| job.name.clone()).collect();
-    job_names
-}
+//     let job_names = jobs.iter().map(|job| job.name.clone()).collect();
+//     job_names
+// }
 
 pub fn get_equipment_slot_names() -> Vec<String> {
     ["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
