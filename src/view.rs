@@ -33,7 +33,12 @@ pub fn index_template(
                 h2 { "Stranger of Paradise: Final Fantasy Origin" }
                 h1 { "Build simulator" }
 
-                button hx-post="/test-load" hx-target="#result" { "Load sample build" }
+                div class="panel" {
+                    h2 { "Save & Load" }
+                    div class="panel-contents" {
+                        button hx-post="/test-load" hx-target="#page-content" { "Load sample build" }
+                    }
+                }
 
                 div id="page-content" {
                     (page_content_template(equipment_slot_names, jobs, job_affinity_sums, active_affinity_bonuses_for_jobs, &FormData::new()))
@@ -61,7 +66,11 @@ pub fn page_content_template(
                     div class="weapon-type-form" {
                         label {"Class (WIP)"}
                         div {
-                            input type="radio" name="job-class" value="evocation" checked {}
+                            input type="radio" name="job-class" value="(None)" checked {}
+                            label { "(None)" }
+                        }
+                        div {
+                            input type="radio" name="job-class" value="evocation" {}
                             label { "Evocation" }
                         }
                         div {

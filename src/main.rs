@@ -143,20 +143,11 @@ async fn update_page_content(Form(form_data): Form<FormData>) -> Html<String> {
         &form_data,
     );
 
-    // println!("form_data: {:?}", form_data);
-
-    // let ser = serialize_form_data_to_string(&form_data);
-    //println!("Serialised: {}", ser);
-
-    // let deser = deserialize_string_to_form_data(&ser);
-    //println!("Deserialised: {:?}", deser);
-
-    // println!("update: {:?}", result);
     Html(result.into())
 }
 
 async fn test_load() -> Html<String> {
-    let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
+    let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_type":"2H","chest_type":"chest-only","weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
     let deser = deserialize_string_to_form_data(&dummy_data);
     update_page_content(Form(deser)).await
 }

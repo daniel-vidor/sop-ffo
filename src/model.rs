@@ -3,10 +3,7 @@ use std::collections::BTreeMap;
 use std::hash::Hash;
 use std::{collections::HashMap, fmt};
 
-use crate::{
-    file_utils::{self, get_jobs},
-    FormData,
-};
+use crate::{file_utils::get_jobs, FormData};
 
 #[derive(Debug, Deserialize, PartialEq)]
 pub enum JobTier {
