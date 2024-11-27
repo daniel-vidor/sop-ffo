@@ -70,7 +70,7 @@ struct FormData {
     active_job: String,
     active_job_strength: u32,
     weapon_type: String,
-    chest_type: String,
+    body_type: String,
     weapon_job1: String,
     weapon_job2: String,
     weapon_strength: u32,
@@ -80,18 +80,18 @@ struct FormData {
     head_job1: String,
     head_job2: String,
     head_strength: u32,
-    chest_job1: String,
-    chest_job2: String,
-    chest_strength: u32,
-    hands_job1: String,
-    hands_job2: String,
-    hands_strength: u32,
-    legs_job1: String,
-    legs_job2: String,
-    legs_strength: u32,
-    feet_job1: String,
-    feet_job2: String,
-    feet_strength: u32,
+    body_job1: String,
+    body_job2: String,
+    body_strength: u32,
+    hand_job1: String,
+    hand_job2: String,
+    hand_strength: u32,
+    leg_job1: String,
+    leg_job2: String,
+    leg_strength: u32,
+    foot_job1: String,
+    foot_job2: String,
+    foot_strength: u32,
     // accessory_job: String,
 }
 
@@ -99,14 +99,14 @@ impl FormData {
     fn new() -> Self {
         FormData {
             weapon_type: "2H".to_string(),
-            chest_type: "chest-only".to_string(),
+            body_type: "body-only".to_string(),
             weapon_strength: 350,
             shield_strength: 75,
             head_strength: 250,
-            chest_strength: 250,
-            hands_strength: 250,
-            legs_strength: 250,
-            feet_strength: 250,
+            body_strength: 250,
+            hand_strength: 250,
+            leg_strength: 250,
+            foot_strength: 250,
             ..Default::default()
         }
     }
@@ -147,7 +147,7 @@ async fn update_page_content(Form(form_data): Form<FormData>) -> Html<String> {
 }
 
 async fn test_load() -> Html<String> {
-    let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_type":"2H","chest_type":"chest-only","weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"chest_job1":"Dragoon","chest_job2":"Warrior","chest_strength":250,"hands_job1":"Dragoon","hands_job2":"Dark Knight","hands_strength":250,"legs_job1":"Monk","legs_job2":"Dark Knight","legs_strength":250,"feet_job1":"Red Mage","feet_job2":"Sage","feet_strength":250}"#;
+    let dummy_data = r#"{"active_job":"Berserker","active_job_strength":800,"weapon_type":"2H","body_type":"body-only","weapon_job1":"Samurai","weapon_job2":"Marauder","weapon_strength":350,"shield_job1":"(None)","shield_job2":"(None)","shield_strength":0,"head_job1":"Samurai","head_job2":"Marauder","head_strength":250,"body_job1":"Dragoon","body_job2":"Warrior","body_strength":250,"hand_job1":"Dragoon","hand_job2":"Dark Knight","hand_strength":250,"leg_job1":"Monk","leg_job2":"Dark Knight","leg_strength":250,"foot_job1":"Red Mage","foot_job2":"Sage","foot_strength":250}"#;
     let deser = deserialize_string_to_form_data(&dummy_data);
     update_page_content(Form(deser)).await
 }

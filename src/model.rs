@@ -174,7 +174,7 @@ where
 // }
 
 pub fn get_equipment_slot_names() -> Vec<String> {
-    ["weapon", "shield", "head", "chest", "hands", "legs", "feet"]
+    ["weapon", "shield", "head", "body", "hand", "leg", "foot"]
         .iter()
         .map(|s| s.to_string())
         .collect()
@@ -198,24 +198,24 @@ fn map_formdata_to_equipment_affinities(form_data: &FormData) -> Vec<EquipmentAf
             form_data.head_strength,
         ),
         (
-            "chest",
-            vec![form_data.chest_job1.clone(), form_data.chest_job2.clone()],
-            form_data.chest_strength,
+            "body",
+            vec![form_data.body_job1.clone(), form_data.body_job2.clone()],
+            form_data.body_strength,
         ),
         (
-            "hands",
-            vec![form_data.hands_job1.clone(), form_data.hands_job2.clone()],
-            form_data.hands_strength,
+            "hand",
+            vec![form_data.hand_job1.clone(), form_data.hand_job2.clone()],
+            form_data.hand_strength,
         ),
         (
-            "legs",
-            vec![form_data.legs_job1.clone(), form_data.legs_job2.clone()],
-            form_data.legs_strength,
+            "leg",
+            vec![form_data.leg_job1.clone(), form_data.leg_job2.clone()],
+            form_data.leg_strength,
         ),
         (
-            "feet",
-            vec![form_data.feet_job1.clone(), form_data.feet_job2.clone()],
-            form_data.feet_strength,
+            "foot",
+            vec![form_data.foot_job1.clone(), form_data.foot_job2.clone()],
+            form_data.foot_strength,
         ),
         // (
         //     "accessory",

@@ -131,17 +131,17 @@ pub fn equipment_form_template(
         }
 
         div class="weapon-type-form" {
-            label { "Chest Type" }
-            @let value_names = ["chest-only", "chest-head", "chest-legs"];
+            label { "Body Equipment Type" }
+            @let value_names = ["body-only", "body-head", "body-leg"];
             @for value_name in value_names {
                 div {
                     @let label_text = match value_name {
-                        "chest-only" => "Chest",
-                        "chest-head" => "Chest + Head",
-                        "chest-legs" => "Chest + Legs",
+                        "body-only" => "Body",
+                        "body-head" => "Body + Head",
+                        "body-leg" => "Body + Legs",
                         _ => ""
                     };
-                    input type="radio" name="chest_type" value=(value_name) checked?[form_data.chest_type == value_name] {}
+                    input type="radio" name="body_type" value=(value_name) checked?[form_data.body_type == value_name] {}
                     label { (label_text) }
                 }
             }
@@ -151,17 +151,17 @@ pub fn equipment_form_template(
             @for slot_name in slot_names {
                 @let is_slot_disabled =
                     slot_name == "shield" && form_data.weapon_type == "2H" ||
-                    slot_name == "head" && form_data.chest_type == "chest-head" ||
-                    slot_name == "legs" && form_data.chest_type == "chest-legs";
+                    slot_name == "head" && form_data.body_type == "body-head" ||
+                    slot_name == "leg" && form_data.body_type == "body-leg";
 
                 @let selected_jobs_and_strength = match slot_name.as_str() {
                     "weapon" => [form_data.weapon_job1.clone(), form_data.weapon_job2.clone(), form_data.weapon_strength.to_string()],
                     "shield" => [form_data.shield_job1.clone(), form_data.shield_job2.clone(), form_data.shield_strength.to_string()],
                     "head" => [form_data.head_job1.clone(), form_data.head_job2.clone(), form_data.head_strength.to_string()],
-                    "chest" => [form_data.chest_job1.clone(), form_data.chest_job2.clone(), form_data.chest_strength.to_string()],
-                    "hands" => [form_data.hands_job1.clone(), form_data.hands_job2.clone(), form_data.hands_strength.to_string()],
-                    "legs" => [form_data.legs_job1.clone(), form_data.legs_job2.clone(), form_data.legs_strength.to_string()],
-                    "feet" => [form_data.feet_job1.clone(), form_data.feet_job2.clone(), form_data.feet_strength.to_string()],
+                    "body" => [form_data.body_job1.clone(), form_data.body_job2.clone(), form_data.body_strength.to_string()],
+                    "hand" => [form_data.hand_job1.clone(), form_data.hand_job2.clone(), form_data.hand_strength.to_string()],
+                    "leg" => [form_data.leg_job1.clone(), form_data.leg_job2.clone(), form_data.leg_strength.to_string()],
+                    "foot" => [form_data.foot_job1.clone(), form_data.foot_job2.clone(), form_data.foot_strength.to_string()],
                     _ => panic!(),
                 };
 
