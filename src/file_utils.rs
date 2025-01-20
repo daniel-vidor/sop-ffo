@@ -7,7 +7,7 @@ use crate::model::Job;
 
 const DATA_FILENAME: &str = "data.json";
 
-pub fn get_jobs() -> Result<Vec<Job>, Box<dyn std::error::Error>> {
+pub fn get_jobs() -> Result<Vec<Job>, Box<dyn Error>> {
     read_json(DATA_FILENAME)
 }
 
