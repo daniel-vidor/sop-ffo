@@ -30,9 +30,7 @@ pub fn index_template(
         html {
             (head_template())
             body {
-                h2 { "Stranger of Paradise: Final Fantasy Origin" }
-                h1 { "Build simulator" }
-
+                img class="sop-ffo-logo" src="/static/logo.png" alt="Stranger of Paradise: Final Fantasy Origin" {}
                 div class="panel" {
                     h2 { "Save & Load" }
                     div class="panel-contents" {

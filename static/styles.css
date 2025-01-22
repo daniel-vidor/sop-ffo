@@ -1,7 +1,6 @@
 html {
     height: 100%;
-    background: linear-gradient(145deg, #1d1f27 0%, #3a3f51 100%);
-    background-attachment: fixed;
+    background: linear-gradient(145deg, #1d1f27, #3a3f51) fixed;
 }
 
 body {    
@@ -51,6 +50,7 @@ h3 {
     margin: 8px;
     padding: 16px;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    /* width: fit-content; */
 }
 
 .panel-contents {
@@ -98,4 +98,10 @@ h3 {
 
 .active_affinity_bonus__description {
     margin-top: 0.25em;
+}
+
+.sop-ffo-logo {
+    width: 50%;
+    display: block;
+    margin: 32px auto;
 }
