@@ -5,10 +5,10 @@ use std::io::BufReader;
 
 use crate::model::Job;
 
-const DATA_FILENAME: &str = "data.json";
+const JOBS_DATA_FILENAME: &str = "jobs.json";
 
 pub fn get_jobs() -> Result<Vec<Job>, Box<dyn Error>> {
-    read_json(DATA_FILENAME)
+    read_json(JOBS_DATA_FILENAME)
 }
 
 // TODO: Decouple from `Job` type. Can I use a generic type here?

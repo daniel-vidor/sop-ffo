@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Alexander",
+    "type": "Orange",
+    "effect": "On a successful parry, inflicts a debuff that decreases the enemy's strength, agility, stamina, intellect, spirit, and luck."
+  },
+  {
+    "name": "Bahamut",
+    "type": "Red",
+    "effect": "A successful soul shield increases Strength, Agility, Stamina, Intellect, Spirit, and Luck by 1 each stack. Can build up to 20 stacks."
+  },
+  {
+    "name": "Carbuncle",
+    "type": "Orange",
+    "effect": "All abilities that can be used in other slots can now be set in the After Parry combo slot as well. Additionally, a successful parry restores MP."
+  },
+  {
+    "name": "Fenrir",
+    "type": "Green",
+    "effect": "After avoiding an enemy attack with evade invincibility, your next ability will cost reduced MP and is guaranteed to be a critical hit."
+  },
+  {
+    "name": "Ifrit",
+    "type": "Red",
+    "effect": "When activating a combo ability from a normal attack, press the [Job Action button] at just the right moment to increase the ability's power by 30%."
+  },
+  {
+    "name": "Leviathan",
+    "type": "Blue",
+    "effect": "Increases MP Recovery and Max MP gained on a successful soul shield or soul burst.\n\n"
+  },
+  {
+    "name": "Odin",
+    "type": "Red",
+    "effect": "Physical damage applies buildup of a debuff which causes vulnerability to all attacks by 30%."
+  },
+  {
+    "name": "Phoenix",
+    "type": "Blue",
+    "effect": "No longer consume a potion to revive an ally. In addition, inflicting enough damage will grant Auto-Raise, automatically reviving the player after being knocked out."
+  },
+  {
+    "name": "Ramuh",
+    "type": "Blue",
+    "effect": "Normal attacks will recover additional MP based on your max MP. In addition, combo abilities cause buildup of the paralysis debuff."
+  },
+  {
+    "name": "Shiva",
+    "type": "Green",
+    "effect": "Critical damage causes buildup of the slow debuff."
+  },
+  {
+    "name": "Sylph",
+    "type": "Green",
+    "effect": "Enables you to evade more quickly during an attack. Evading refills your break gauge."
+  },
+  {
+    "name": "Titan",
+    "type": "Orange",
+    "effect": "Grants an effect that nullifies a certain amount of damage based on the amount of time an enemy is targeting you."
+  }
+]

@@ -24,7 +24,7 @@ h1, h2 {
 
 h1 {
     color: rgb(175, 238, 238);
-        text-shadow: 
+    text-shadow:
         rgba(175, 238, 238, 0.1) -0.4em -0.2em 0,
         rgb(140, 200, 238) 0 0 0.125em;
 }
@@ -55,10 +55,9 @@ h3 {
 
 .panel-contents {
     margin: 0 16px;
-
     display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 16px;
 }
 
 .job-form {

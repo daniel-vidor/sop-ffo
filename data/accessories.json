@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Black Belt",
+    "job": "Warrior"
+  },
+  {
+    "name": "Bracer",
+    "job": "Assassin"
+  },
+  {
+    "name": "Brotherhood",
+    "job": "Berserker"
+  },
+  {
+    "name": "Cat Nip",
+    "job": "Dark Knight"
+  },
+  {
+    "name": "Cat-ear Hood",
+    "job": "Sage"
+  },
+  {
+    "name": "Conformer",
+    "job": "Ninja"
+  },
+  {
+    "name": "Death Tarot",
+    "job": "Gambler"
+  },
+  {
+    "name": "Duelist's Handbook",
+    "job": "Duelist"
+  },
+  {
+    "name": "Dusk Shard",
+    "job": "Evoker"
+  },
+  {
+    "name": "Equilibrium",
+    "job": "Liberator"
+  },
+  {
+    "name": "Gold Hairpin",
+    "job": "Void Knight"
+  },
+  {
+    "name": "Hermes Sandal",
+    "job": "Dragoon"
+  },
+  {
+    "name": "Hypnocrown",
+    "job": "Black Mage"
+  },
+  {
+    "name": "Lancer's Handbook",
+    "job": "Lancer"
+  },
+  {
+    "name": "Lionheart",
+    "job": "Knight"
+  },
+  {
+    "name": "Mage's Handbook",
+    "job": "Mage"
+  },
+  {
+    "name": "Marauder's Handbook",
+    "job": "Marauder"
+  },
+  {
+    "name": "Marksman's Handbook",
+    "job": "Marksman"
+  },
+  {
+    "name": "Muscle Belt",
+    "job": "Monk"
+  },
+  {
+    "name": "Onion Gauntlets",
+    "job": "Summoner"
+  },
+  {
+    "name": "Pilgrim's Handbook",
+    "job": "Pilgrim"
+  },
+  {
+    "name": "Pugilist's Handbook",
+    "job": "Pugilist"
+  },
+  {
+    "name": "Ribbon",
+    "job": "Paladin"
+  },
+  {
+    "name": "Ring of the Lucii",
+    "job": "Breaker"
+  },
+  {
+    "name": "Ronin's Handbook",
+    "job": "Ronin"
+  },
+  {
+    "name": "Safety Bit",
+    "job": "White Mage"
+  },
+  {
+    "name": "Sarah's Soul",
+    "job": "Cyclic Warrior"
+  },
+  {
+    "name": "Sniper Eye",
+    "job": "Tyrant"
+  },
+  {
+    "name": "Soul of Thamasa",
+    "job": "Red Mage"
+  },
+  {
+    "name": "Swordfighter's Handbook",
+    "job": "Swordfighter"
+  },
+  {
+    "name": "Swordsman's Handbook",
+    "job": "Swordsman"
+  },
+  {
+    "name": "Thief Gloves",
+    "job": "Thief"
+  },
+  {
+    "name": "Wild Rose",
+    "job": "Samurai"
+  },
+  {
+    "name": "Wizard Bracelet",
+    "job": "Blue Mage"
+  },
+  {
+    "name": "Yoichi's Bow",
+    "job": "Hunter"
+  }
+]
