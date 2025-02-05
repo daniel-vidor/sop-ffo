@@ -88,6 +88,13 @@ pub fn page_content_template(
         }
 
         div class="panel" {
+            h2 { "Equipment Effects" }
+            div class="panel-contents" id="" {
+                (active_equipment_effects_template())
+            }
+        }
+
+        div class="panel" {
             h2 { "Job Affinity Bonus" }
             div class="panel-contents" id="result" {
                 (active_job_affinities_template(job_affinity_sums, active_affinity_bonuses_for_jobs))
@@ -204,6 +211,15 @@ fn get_job_options(jobs: &[Job], selected_job: String) -> Markup {
             @for job in jobs.iter().filter(|job| job.tier == job_tier) {
                 option value=(job.name) selected?[job.name == selected_job] { (job.name) }
             }
+        }
+    }
+}
+
+// TODO
+pub fn active_equipment_effects_template() -> Markup {
+    html! {
+        p {
+            "Strength + 2"
         }
     }
 }
